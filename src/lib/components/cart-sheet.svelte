@@ -2,27 +2,21 @@
   import { Minus, Plus } from 'lucide-svelte';
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
+  import { getCartContext } from '$lib/context/cart.svelte';
 
-  type Props = {
-    isOpen: boolean;
-    quantity: number;
-  };
-
-  let { isOpen, quantity }: Props = $props();
-
-  const incrementQuantity = () => {
-    quantity += 1;
-  };
-
-  const decrementQuantity = () => {
-    quantity -= 1;
-  };
+  let {
+    decrementQuantity,
+    incrementQuantity,
+    quantityCartSheet,
+    setOpenCartSheet,
+    isOpenCartSheet,
+  } = getCartContext();
 </script>
 
 <Sheet
-  open={isOpen}
+  open={isOpenCartSheet()}
   onOpenChange={(value) => {
-    isOpen = value;
+    setOpenCartSheet(value);
   }}
 >
   <SheetContent
@@ -57,16 +51,16 @@
                   variant="ghost"
                   size="icon"
                   class="h-8 w-8"
-                  onclick={decrementQuantity}
+                  onclick={() => decrementQuantity()}
                 >
                   <Minus class="h-3 w-3" />
                 </Button>
-                <span class="w-4 text-center">{quantity}</span>
+                <span class="w-4 text-center">{quantityCartSheet()}</span>
                 <Button
                   variant="ghost"
                   size="icon"
                   class="h-8 w-8"
-                  onclick={incrementQuantity}
+                  onclick={() => incrementQuantity()}
                 >
                   <Plus class="h-3 w-3" />
                 </Button>
