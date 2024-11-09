@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Skeleton } from '$lib/components/ui/skeleton';
+  import { pb } from '$lib/pocketbase';
 
   let { data } = $props();
 
@@ -17,13 +18,15 @@
       <Skeleton class="w-full h-[320px]" />
     {/each}
   {:then products}
-    {#each products as product, idx}
+    {#each products as product}
       <div class="group relative">
         <figure
           class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"
         >
           <img
-            src={`https://placedog.net/50${idx}`}
+            src={product.img
+              ? pb.files.getUrl(product, product.img)
+              : `https://placehold.co/500`}
             alt={product.description}
             class="w-full h-full object-center object-cover lg:w-full lg:h-full"
           />
