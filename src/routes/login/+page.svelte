@@ -29,12 +29,7 @@
       <CardTitle class="text-2xl font-bold text-center"
         >Iniciar sesión</CardTitle
       >
-      <CardDescription class="text-center">
-        Ingresa a tu cuenta
-        <!-- {#each products as p}
-          <p>{p.name}</p>
-        {/each} -->
-      </CardDescription>
+      <CardDescription class="text-center">Ingresa a tu cuenta</CardDescription>
     </CardHeader>
     <CardContent class="space-y-2">
       <form method="post" action="?/login" use:enhance={handleSubmit}>
