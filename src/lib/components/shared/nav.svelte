@@ -34,9 +34,9 @@
       </nav>
     </div>
 
-    <div class="flex-1 md:block hidden">
-      <Input placeholder="Buscar productos" />
-    </div>
+    <form class="flex-1 md:block hidden">
+      <Input placeholder="Buscar productos" name="p" />
+    </form>
 
     <div class="flex items-center flex-1 justify-end gap-2">
       <Button
