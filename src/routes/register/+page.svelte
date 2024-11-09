@@ -23,18 +23,18 @@
   };
 </script>
 
-<div class="min-h-screen flex items-center justify-center">
+<div class="flex items-center justify-center">
   <Card class="w-full max-w-md">
     <CardHeader>
-      <CardTitle class="text-2xl font-bold text-center">Sign up</CardTitle>
+      <CardTitle class="text-2xl font-bold text-center">Crear cuenta</CardTitle>
       <CardDescription class="text-center">
-        Create an account to get started
+        Crea una cuenta para comenzar
         <!-- {#each products as p}
           <p>{p.name}</p>
         {/each}
 
         <Button onclick={() => removeLastProduct()}>
-          Eliminar last one product
+          Eliminar último producto
         </Button> -->
       </CardDescription>
     </CardHeader>
@@ -42,59 +42,57 @@
       <form method="post" action="?/register" use:enhance={handleSubmit}>
         <div class="space-y-4">
           <div class="space-y-2">
-            <Label for="fullName">Full Name</Label>
-
+            <Label for="fullName">Nombre completo</Label>
             <Input
               id="fullName"
               type="text"
-              placeholder="Full Name"
+              placeholder="Nombre completo"
               name="fullName"
               required
             />
           </div>
           <div class="space-y-2">
-            <Label for="email">Email</Label>
-
+            <Label for="email">Correo electrónico</Label>
             <Input
               id="email"
               type="email"
-              placeholder="Email"
+              placeholder="Correo electrónico"
               name="email"
               required
             />
           </div>
           <div class="space-y-2">
-            <Label for="password">Password</Label>
-
+            <Label for="password">Contraseña</Label>
             <Input
               id="password"
               type="text"
               name="password"
               required
-              placeholder="Password"
+              placeholder="Contraseña"
             />
           </div>
 
           <div class="space-y-2">
-            <Label for="password">Password Confirm</Label>
-
+            <Label for="password">Confirmar contraseña</Label>
             <Input
               id="password"
               type="text"
               name="passwordConfirm"
               required
-              placeholder="Password Confirm"
+              placeholder="Confirmar contraseña"
             />
           </div>
         </div>
 
         <Button class="w-full mt-6" type="submit" disabled={isPending}
-          >Create Account</Button
+          >Crear cuenta</Button
         >
       </form>
       <div>
-        Already have an account?{' '}
-        <a href="/login" class="text-sky-600 hover:underline"> Sign in </a>
+        ¿Ya tienes una cuenta?{' '}
+        <a href="/login" class="text-sky-600 hover:underline">
+          Inicia sesión
+        </a>
       </div>
     </CardContent>
   </Card>
