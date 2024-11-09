@@ -38,7 +38,11 @@
             </h3>
           </div>
           <p class="text-sm font-medium text-gray-900">
-            S/. {product.expand?.product_prices_via_product_id[0].price}
+            {#if product.expand?.product_prices_via_product_id}
+              S/. {product.expand?.product_prices_via_product_id[0].price}
+            {:else}
+              No esta disponible
+            {/if}
           </p>
         </div>
       </div>
