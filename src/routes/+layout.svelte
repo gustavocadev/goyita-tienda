@@ -1,5 +1,5 @@
 <script lang="ts">
-    import CartSheet from '$lib/components/cart-sheet.svelte';
+  import CartSheet from '$lib/components/cart-sheet.svelte';
   import Navbar from '$lib/components/shared/nav.svelte'
   import { setCartContextProvider } from '$lib/context/cart.svelte';
   import '../app.css'
