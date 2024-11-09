@@ -2,13 +2,9 @@
   import { Button } from '$lib/components/ui/button';
   import { Menu, ShoppingCart } from 'lucide-svelte';
   import { Input } from '$lib/components/ui/input';
+  import { getCartContext } from '$lib/context/cart.svelte';
 
-  interface Props {
-    isOpen: boolean;
-    quantity: number;
-  }
-
-  let { isOpen, quantity }: Props = $props();
+  let { toggleCartSheet } = getCartContext();
 </script>
 
 <header class="px-4 flex">
@@ -46,7 +42,7 @@
       <Button
         variant="ghost"
         onclick={() => {
-          isOpen = true;
+          toggleCartSheet();
         }}
       >
         <ShoppingCart class="size-6" />
