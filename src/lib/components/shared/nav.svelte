@@ -43,15 +43,8 @@
     </div>
 
     <div class="flex items-center flex-1 justify-end gap-2">
-      <a href="/login">
-        <Button>Iniciar sesion</Button>
-      </a>
-      <a href="/register">
-        <Button>Registrase</Button>
-      </a>
       <Button
         variant="ghost"
-        size="icon"
         onclick={() => {
           isOpen = true;
         }}
@@ -59,6 +52,14 @@
         <ShoppingCart class="size-6" />
         <span class="sr-only">Cart</span>
       </Button>
+      <a href="/login">
+        <Button variant="ghost">Iniciar sesion</Button>
+      </a>
+
+      <a href="/register">
+        <Button>Registrase</Button>
+      </a>
+
       <Button variant="ghost" size="icon" class="md:hidden">
         <Menu class="size-6" />
         <span class="sr-only">Menu</span>
