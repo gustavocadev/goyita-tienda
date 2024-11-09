@@ -3,6 +3,7 @@
   import { Menu, ShoppingCart } from 'lucide-svelte';
   import { Input } from '$lib/components/ui/input';
   import { getCartContext } from '$lib/context/cart.svelte';
+  import LightSwitch from './light-switch.svelte';
 
   let { toggleCartSheet } = getCartContext();
 </script>
@@ -55,6 +56,8 @@
       <a href="/register" class="hidden md:block">
         <Button>Registrase</Button>
       </a>
+
+      <LightSwitch />
 
       <Button variant="ghost" size="icon" class="md:hidden">
         <Menu class="size-6" />
