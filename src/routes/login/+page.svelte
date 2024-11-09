@@ -23,12 +23,14 @@
   };
 </script>
 
-<div class="min-h-screen flex items-center justify-center">
+<div class="flex items-center justify-center">
   <Card class="w-full max-w-md">
     <CardHeader>
-      <CardTitle class="text-2xl font-bold text-center">Login</CardTitle>
+      <CardTitle class="text-2xl font-bold text-center"
+        >Iniciar sesión</CardTitle
+      >
       <CardDescription class="text-center">
-        Sign in to your account
+        Ingresa a tu cuenta
         <!-- {#each products as p}
           <p>{p.name}</p>
         {/each} -->
@@ -38,34 +40,35 @@
       <form method="post" action="?/login" use:enhance={handleSubmit}>
         <div class="space-y-4">
           <div class="space-y-2">
-            <Label for="email">Email</Label>
-
+            <Label for="email">Correo electrónico</Label>
             <Input
               id="email"
               type="text"
               name="email"
               required
-              placeholder="Email"
+              placeholder="Correo electrónico"
             />
           </div>
           <div class="space-y-2">
-            <Label for="password">Password</Label>
+            <Label for="password">Contraseña</Label>
             <Input
               id="password"
               type="text"
               name="password"
               required
-              placeholder="Password"
+              placeholder="Contraseña"
             />
           </div>
         </div>
         <Button class="w-full mt-6" type="submit" disabled={isPending}
-          >Sign In</Button
+          >Iniciar sesión</Button
         >
       </form>
       <div>
-        Don't have an account?{' '}
-        <a href="/register" class="text-sky-600 hover:underline"> Sign up </a>
+        ¿No tienes una cuenta?{' '}
+        <a href="/register" class="text-sky-600 hover:underline">
+          Regístrate
+        </a>
       </div>
     </CardContent>
   </Card>
