@@ -1,6 +1,5 @@
 <script lang="ts">
   import { products } from '$lib/data/products';
-  import CartSheet from '$lib/components/cart-sheet.svelte';
 </script>
 
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -38,5 +37,3 @@
     {/each}
   </div>
 </main>
-
-<CartSheet />
