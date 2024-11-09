@@ -33,6 +33,7 @@
     "zod": "^3.23.8"
   },
   "dependencies": {
+    "mode-watcher": "^0.4.1",
     "pocketbase": "^0.21.5"
   }
 }
