@@ -11,8 +11,8 @@
   >
     {#each products as product}
       <div class="group relative">
-        <div
-          class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"
+        <figure
+          class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"
         >
           <img
             src={product.imageSrc}
@@ -21,7 +21,7 @@
             width={500}
             height={500}
           />
-        </div>
+        </figure>
         <div class="mt-4 flex justify-between">
           <div>
             <h3 class="text-sm text-gray-700">
