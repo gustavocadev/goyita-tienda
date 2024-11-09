@@ -48,11 +48,11 @@
         <ShoppingCart class="size-6" />
         <span class="sr-only">Cart</span>
       </Button>
-      <a href="/login">
+      <a href="/login" class="hidden md:block">
         <Button variant="ghost">Iniciar sesion</Button>
       </a>
 
-      <a href="/register">
+      <a href="/register" class="hidden md:block">
         <Button>Registrase</Button>
       </a>
 
