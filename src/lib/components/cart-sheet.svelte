@@ -43,7 +43,7 @@
     <div class="flex flex-col h-full">
       <div class="flex-1 overflow-auto p-4">
         {#each cartProducts as cartProduct}
-          <div class="flex gap-3 pb-4 border-b">
+          <div class="flex gap-3 pb-4 border-b mt-4">
             <figure class="relative h-16 w-16 overflow-hidden rounded">
               <img
                 src="https://placehold.co/64x64"
