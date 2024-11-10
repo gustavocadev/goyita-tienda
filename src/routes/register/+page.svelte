@@ -65,7 +65,7 @@
             <Label for="password">Contraseña</Label>
             <Input
               id="password"
-              type="text"
+              type="password"
               name="password"
               required
               placeholder="Contraseña"
@@ -76,7 +76,7 @@
             <Label for="password">Confirmar contraseña</Label>
             <Input
               id="password"
-              type="text"
+              type="password"
               name="passwordConfirm"
               required
               placeholder="Confirmar contraseña"

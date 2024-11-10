@@ -38,7 +38,7 @@
             <Label for="email">Correo electrónico</Label>
             <Input
               id="email"
-              type="text"
+              type="email"
               name="email"
               required
               placeholder="Correo electrónico"
@@ -48,7 +48,7 @@
             <Label for="password">Contraseña</Label>
             <Input
               id="password"
-              type="text"
+              type="password"
               name="password"
               required
               placeholder="Contraseña"
