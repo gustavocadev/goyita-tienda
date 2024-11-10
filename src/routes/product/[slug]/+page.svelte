@@ -2,9 +2,12 @@
   import ProductCarousel from '$lib/components/product-carousel.svelte';
   import Badge from '$lib/components/ui/badge/badge.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { ChevronLeft, ChevronRight, Plus } from 'lucide-svelte';
+  import { getCartContext } from '$lib/context/cart.svelte.js';
+  import { pb } from '$lib/pocketbase.js';
 
   let { data } = $props();
+
+  const { addCartItem, toggleCartSheet, cartItems } = getCartContext();
 
   const colors = [
     { id: 'black', name: 'Black' },
@@ -25,6 +28,10 @@
   const previousImage = () => {
     // setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
   };
+
+  const existsProduct = $derived(
+    cartItems().some((cartItem) => cartItem.id === data.product.id),
+  );
 </script>
 
 <div class="grid lg:grid-cols-2 gap-8">
@@ -78,13 +85,38 @@
       {data.product.description}
     </p>
 
-    <Button type="button">
-      <Plus class="h-5 w-5" />
-      Añadir al carrito
-    </Button>
-  </div>
-</div>
+    {#if data.product.expand?.product_prices_via_product_id}
+      <!-- <p>
+      {data.product.expand?.product_prices_via_product_id[0].price}
+    </p> -->
+      <Button
+        type="button"
+        variant={existsProduct ? 'outline' : 'default'}
+        onclick={() => {
+          if (existsProduct) return;
 
-<div class="mt-8 flex gap-4">
-  <!-- Aquí puedes mapear las miniaturas de imágenes -->
+          if (!data.product.expand?.product_prices_via_product_id) return;
+
+          const productPrice =
+            data.product.expand?.product_prices_via_product_id[0].price;
+
+          addCartItem({
+            id: data.product.id,
+            name: data.product.name,
+            price: productPrice,
+            quantity: 1,
+            img: pb.files.getUrl(data.product, data.product.img),
+          });
+          toggleCartSheet();
+        }}
+      >
+        <!-- <Plus class="h-5 w-5" /> -->
+        {#if existsProduct}
+          Agregado al carrito
+        {:else}
+          Comprar ahora
+        {/if}
+      </Button>
+    {/if}
+  </div>
 </div>
