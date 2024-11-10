@@ -5,13 +5,15 @@
   import { ModeWatcher } from "mode-watcher";
   import '../app.css'
 
-	let { children } = $props();
+	let { children, data } = $props();
 
   setCartContextProvider()
 </script>
 
 <ModeWatcher />
-<Navbar />
+<Navbar
+  user={data.user}
+/>
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
   {@render children()}
 </main>
