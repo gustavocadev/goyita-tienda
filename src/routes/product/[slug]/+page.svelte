@@ -21,17 +21,28 @@
     '/placeholder.svg?height=600&width=600',
   ];
 
-  const nextImage = () => {
-    // setCurrentImageIndex((prev) => (prev + 1) % images.length)
-  };
-
-  const previousImage = () => {
-    // setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
-  };
-
   const existsProduct = $derived(
     cartItems().some((cartItem) => cartItem.id === data.product.id),
   );
+
+  const addProductToCart = () => {
+    if (existsProduct) return;
+
+    if (!data.product.expand?.product_prices_via_product_id) return;
+
+    const productPrice =
+      data.product.expand?.product_prices_via_product_id[0].price;
+
+    addCartItem({
+      id: data.product.id,
+      name: data.product.name,
+      price: productPrice,
+      quantity: 1,
+      img: pb.files.getUrl(data.product, data.product.img),
+    });
+    localStorage.setItem('cartItems', JSON.stringify(cartItems()));
+    toggleCartSheet();
+  };
 </script>
 
 <div class="grid lg:grid-cols-2 gap-8">
@@ -92,23 +103,7 @@
       <Button
         type="button"
         variant={existsProduct ? 'outline' : 'default'}
-        onclick={() => {
-          if (existsProduct) return;
-
-          if (!data.product.expand?.product_prices_via_product_id) return;
-
-          const productPrice =
-            data.product.expand?.product_prices_via_product_id[0].price;
-
-          addCartItem({
-            id: data.product.id,
-            name: data.product.name,
-            price: productPrice,
-            quantity: 1,
-            img: pb.files.getUrl(data.product, data.product.img),
-          });
-          toggleCartSheet();
-        }}
+        onclick={() => addProductToCart()}
       >
         <!-- <Plus class="h-5 w-5" /> -->
         {#if existsProduct}
