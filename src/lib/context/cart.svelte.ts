@@ -19,7 +19,10 @@ const cartStore = () => {
     if (cartProductItems) {
       setCartItems(JSON.parse(cartProductItems));
       isCartItemsLoading = false;
+      return;
     }
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    isCartItemsLoading = false;
   });
 
   const toggleCartSheet = () => {
