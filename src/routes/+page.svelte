@@ -34,7 +34,7 @@
         <div class="mt-4 flex justify-between">
           <div>
             <h3 class="text-sm text-gray-700 dark:text-gray-300">
-              <a href="/product/produt-name">
+              <a href={`/product/${product.id}`}>
                 <span aria-hidden="true" class="absolute inset-0"></span>
                 {product.name}
               </a>
