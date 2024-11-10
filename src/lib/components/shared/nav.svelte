@@ -4,6 +4,7 @@
   import { Input } from '$lib/components/ui/input';
   import { getCartContext } from '$lib/context/cart.svelte';
   import LightSwitch from './light-switch.svelte';
+  import { invalidate } from '$app/navigation';
 
   let { toggleCartSheet } = getCartContext();
 </script>
@@ -11,7 +12,13 @@
 <header class="px-4 flex">
   <div class="flex justify-between items-center py-4 gap-8 w-full">
     <div class="flex items-center gap-4 justify-start flex-1">
-      <a href="/" class="flex items-center text-sm uppercase">
+      <a
+        href="/"
+        class="flex items-center text-sm uppercase"
+        onclick={() => {
+          invalidate('filter:products');
+        }}
+      >
         <span class="text-lg font-semibold"> Goyita Store </span>
       </a>
       <nav class="hidden md:flex">
@@ -35,7 +42,13 @@
       </nav>
     </div>
 
-    <form class="flex-1 md:block hidden">
+    <form
+      class="flex-1 md:block hidden"
+      action="/"
+      onsubmit={() => {
+        invalidate('filter:products');
+      }}
+    >
       <Input placeholder="Buscar productos" name="p" />
     </form>
 
