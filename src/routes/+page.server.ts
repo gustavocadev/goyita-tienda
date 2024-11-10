@@ -1,7 +1,8 @@
 import type { ProductsResponse } from '../../pocketbase-types.js';
 import type { ProductPricesResponse } from '../../pocketbase-types';
 
-export const load = async ({ locals, request }) => {
+export const load = async ({ locals, request, depends }) => {
+  depends('filter:products');
   const url = new URL(request.url);
   const productName = url.searchParams.get('p');
 
