@@ -1,16 +1,8 @@
 <script lang="ts">
-  import {
-    Minus,
-    Plus,
-    Wallet,
-    Wallet2,
-    Wallet2Icon,
-    WalletMinimal,
-  } from 'lucide-svelte';
+  import { Minus, Plus, WalletMinimal } from 'lucide-svelte';
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import { onMount } from 'svelte';
 
   let {
     decrementQuantity,
@@ -19,15 +11,7 @@
     isOpenCartSheet,
     cartItems,
     removeCartItem,
-    setCartItems,
   } = getCartContext();
-
-  onMount(() => {
-    const cartProductItems = localStorage.getItem('cartItems');
-    if (cartProductItems) {
-      setCartItems(JSON.parse(cartProductItems));
-    }
-  });
 
   const productTotal = $derived(
     cartItems().reduce((acc, cartItem) => {
