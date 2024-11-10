@@ -2,12 +2,14 @@
   import ProductCarousel from '$lib/components/product-carousel.svelte';
   import Badge from '$lib/components/ui/badge/badge.svelte';
   import { Button } from '$lib/components/ui/button';
+  import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
   import { getCartContext } from '$lib/context/cart.svelte.js';
   import { pb } from '$lib/pocketbase.js';
 
   let { data } = $props();
 
-  const { addCartItem, toggleCartSheet, cartItems } = getCartContext();
+  const { addCartItem, toggleCartSheet, cartItems, isCartItemsLoading } =
+    getCartContext();
 
   const colors = [
     { id: 'black', name: 'Black' },
@@ -96,7 +98,7 @@
       {data.product.description}
     </p>
 
-    {#if data.product.expand?.product_prices_via_product_id}
+    {#if data.product.expand?.product_prices_via_product_id && !isCartItemsLoading()}
       <!-- <p>
       {data.product.expand?.product_prices_via_product_id[0].price}
     </p> -->
@@ -105,13 +107,15 @@
         variant={existsProduct ? 'outline' : 'default'}
         onclick={() => addProductToCart()}
       >
-        <!-- <Plus class="h-5 w-5" /> -->
         {#if existsProduct}
           Agregado al carrito
         {:else}
           Comprar ahora
         {/if}
+        <!-- <Plus class="h-5 w-5" /> -->
       </Button>
+    {:else}
+      <Skeleton class="w-full h-10" />
     {/if}
   </div>
 </div>
