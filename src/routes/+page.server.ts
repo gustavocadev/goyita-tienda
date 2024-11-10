@@ -1,5 +1,6 @@
 import type { ProductsResponse } from '../../pocketbase-types.js';
 import type { ProductPricesResponse } from '../../pocketbase-types';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals, request, depends }) => {
   depends('filter:products');
@@ -18,4 +19,11 @@ export const load = async ({ locals, request, depends }) => {
   return {
     products,
   };
+};
+
+export const actions = {
+  logout: async ({ locals }) => {
+    locals.pb.authStore.clear();
+    redirect(303, '/');
+  },
 };
