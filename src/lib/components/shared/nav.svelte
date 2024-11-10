@@ -5,7 +5,9 @@
   import { getCartContext } from '$lib/context/cart.svelte';
   import LightSwitch from './light-switch.svelte';
   import { invalidate } from '$app/navigation';
+  import UserLoggedIn from './UserLoggedIn.svelte';
 
+  let { user } = $props();
   let { toggleCartSheet } = getCartContext();
 </script>
 
@@ -53,6 +55,7 @@
     </form>
 
     <div class="flex items-center flex-1 justify-end gap-2">
+      <LightSwitch />
       <Button
         variant="ghost"
         onclick={() => {
@@ -62,15 +65,18 @@
         <ShoppingCart class="size-6" />
         <span class="sr-only">Cart</span>
       </Button>
-      <a href="/login" class="hidden md:block">
-        <Button variant="ghost">Iniciar sesion</Button>
-      </a>
 
-      <a href="/register" class="hidden md:block">
-        <Button>Registrase</Button>
-      </a>
+      {#if !user}
+        <a href="/login" class="hidden md:block">
+          <Button variant="ghost">Iniciar sesion</Button>
+        </a>
 
-      <LightSwitch />
+        <a href="/register" class="hidden md:block">
+          <Button>Registrase</Button>
+        </a>
+      {:else}
+        <UserLoggedIn />
+      {/if}
 
       <Button variant="ghost" size="icon" class="md:hidden">
         <Menu class="size-6" />
