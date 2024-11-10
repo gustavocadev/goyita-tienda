@@ -12,7 +12,7 @@ export const load = async ({ request, locals, params }) => {
   >(slug, {
     expand: 'product_prices_via_product_id',
   });
-  console.log({ product });
+
   return {
     product,
   };
