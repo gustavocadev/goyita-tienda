@@ -1,4 +1,4 @@
-import { getContext, setContext } from 'svelte';
+import { getContext, onMount, setContext } from 'svelte';
 
 type ProductCart = {
   id: string;
@@ -12,6 +12,15 @@ const cartStore = () => {
   let isOpenCartSheet = $state(false);
   let cartItems = $state<ProductCart[]>([]);
   let total = $state(0);
+  let isCartItemsLoading = $state(true);
+
+  onMount(() => {
+    const cartProductItems = localStorage.getItem('cartItems');
+    if (cartProductItems) {
+      setCartItems(JSON.parse(cartProductItems));
+      isCartItemsLoading = false;
+    }
+  });
 
   const toggleCartSheet = () => {
     isOpenCartSheet = !isOpenCartSheet;
@@ -61,6 +70,9 @@ const cartStore = () => {
     },
     cartItems() {
       return cartItems;
+    },
+    isCartItemsLoading() {
+      return isCartItemsLoading;
     },
     addCartItem,
     toggleCartSheet,
