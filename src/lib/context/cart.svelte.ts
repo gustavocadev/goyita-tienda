@@ -1,9 +1,38 @@
 import { getContext, setContext } from 'svelte';
 
+type ProductCart = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  img: string;
+};
+
 const cartStore = () => {
   let isOpenCartSheet = $state(false);
-  let quantityCartSheet = $state(0);
-  let cartItems = $state([]);
+  let cartItems = $state<ProductCart[]>([
+    {
+      id: '1',
+      name: 'Product 1',
+      price: 100,
+      quantity: 1,
+      img: 'https://placehold.co/64x64',
+    },
+    {
+      id: '2',
+      name: 'Product 2',
+      price: 200,
+      quantity: 1,
+      img: 'https://placehold.co/64x64',
+    },
+    {
+      id: '3',
+      name: 'Product 3',
+      price: 300,
+      quantity: 1,
+      img: 'https://placehold.co/64x64',
+    },
+  ]);
   let total = $state(0);
 
   const toggleCartSheet = () => {
@@ -14,25 +43,49 @@ const cartStore = () => {
     isOpenCartSheet = value;
   };
 
-  const incrementQuantity = () => {
-    quantityCartSheet += 1;
+  const incrementQuantity = (id: string) => {
+    cartItems = cartItems.map((item) => {
+      if (item.id !== id) return item;
+
+      return {
+        ...item,
+        quantity: item.quantity + 1,
+      };
+    });
   };
 
-  const decrementQuantity = () => {
-    quantityCartSheet -= Math.min(quantityCartSheet, 1);
+  const decrementQuantity = (id: string) => {
+    cartItems = cartItems.map((item) => {
+      if (item.id !== id) return item;
+
+      return {
+        ...item,
+        quantity: item.quantity - 1,
+      };
+    });
+  };
+
+  const removeCartItem = (id: string) => {
+    cartItems = cartItems.filter((item) => item.id !== id);
+  };
+
+  const addCartItem = (item: ProductCart) => {
+    cartItems = [...cartItems, item];
   };
 
   return {
     isOpenCartSheet() {
       return isOpenCartSheet;
     },
-    quantityCartSheet() {
-      return quantityCartSheet;
+    cartItems() {
+      return cartItems;
     },
+    addCartItem,
     toggleCartSheet,
     incrementQuantity,
     decrementQuantity,
     setOpenCartSheet,
+    removeCartItem,
   };
 };
 
