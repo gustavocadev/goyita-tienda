@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { Minus, Plus } from 'lucide-svelte';
+  import {
+    Minus,
+    Plus,
+    Wallet,
+    Wallet2,
+    Wallet2Icon,
+    WalletMinimal,
+  } from 'lucide-svelte';
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
@@ -7,25 +14,17 @@
   let {
     decrementQuantity,
     incrementQuantity,
-    quantityCartSheet,
     setOpenCartSheet,
     isOpenCartSheet,
+    cartItems,
+    removeCartItem,
   } = getCartContext();
 
-  let cartProducts = $state([
-    {
-      id: 1,
-      title: 'Título del Producto',
-      price: 15.0,
-      image: 'https://placehold.co/64x64',
-    },
-    {
-      id: 2,
-      title: 'Título del Producto',
-      price: 15.0,
-      image: 'https://placehold.co/64x64',
-    },
-  ]);
+  const productTotal = $derived(
+    cartItems().reduce((acc, cartItem) => {
+      return acc + cartItem.price * cartItem.quantity;
+    }, 0),
+  );
 </script>
 
 <Sheet
@@ -42,11 +41,11 @@
     </SheetHeader>
     <div class="flex flex-col h-full">
       <div class="flex-1 overflow-auto p-4">
-        {#each cartProducts as cartProduct}
+        {#each cartItems() as cartProduct}
           <div class="flex gap-3 pb-4 border-b mt-4">
             <figure class="relative h-16 w-16 overflow-hidden rounded">
               <img
-                src="https://placehold.co/64x64"
+                src={cartProduct.img}
                 alt="Imagen del producto"
                 width={64}
                 height={64}
@@ -55,26 +54,33 @@
             </figure>
             <div class="flex flex-1 flex-col justify-between">
               <div>
-                <h3 class="font-medium">Título del Producto</h3>
-                <p class="text-sm">Negro / XS</p>
+                <h3 class="font-medium">{cartProduct.name}</h3>
+                <!-- <p class="text-sm">Negro / XS</p> -->
               </div>
               <div class="flex items-center justify-between">
-                <span class="font-medium">$15.00 USD</span>
+                <span class="font-medium">S/. {cartProduct.price}</span>
                 <div class="flex items-center gap-3 bg-white/5 rounded-lg">
                   <Button
                     variant="ghost"
                     size="icon"
                     class="h-8 w-8"
-                    onclick={() => decrementQuantity()}
+                    onclick={() => {
+                      if (cartProduct.quantity === 1) {
+                        removeCartItem(cartProduct.id);
+                        return;
+                      }
+
+                      decrementQuantity(cartProduct.id);
+                    }}
                   >
                     <Minus class="h-3 w-3" />
                   </Button>
-                  <span class="w-4 text-center">{quantityCartSheet()}</span>
+                  <span class="w-4 text-center">{cartProduct.quantity}</span>
                   <Button
                     variant="ghost"
                     size="icon"
                     class="h-8 w-8"
-                    onclick={() => incrementQuantity()}
+                    onclick={() => incrementQuantity(cartProduct.id)}
                   >
                     <Plus class="h-3 w-3" />
                   </Button>
@@ -86,20 +92,21 @@
       </div>
       <div class="border-t p-4 mb-12">
         <div class="space-y-3">
-          <div class="flex justify-between text-sm">
+          <!-- <div class="flex justify-between text-sm">
             <span>Impuestos</span>
             <span>$0.00 USD</span>
           </div>
           <div class="flex justify-between text-sm">
             <span>Envío</span>
             <span>Calculado al finalizar</span>
-          </div>
+          </div> -->
           <div class="flex justify-between font-medium">
-            <span>Total</span>
-            <span>$15.00 USD</span>
+            <span>Total ({cartItems().length} productos)</span>
+            <span>S/.{productTotal}</span>
           </div>
-          <Button class="w-full bg-[#2563EB] text-white hover:bg-[#2563EB]/90">
-            Proceder al Pago
+          <Button class="w-full ">
+            Completa tu compra!
+            <WalletMinimal />
           </Button>
         </div>
       </div>
