@@ -10,29 +10,7 @@ type ProductCart = {
 
 const cartStore = () => {
   let isOpenCartSheet = $state(false);
-  let cartItems = $state<ProductCart[]>([
-    {
-      id: '1',
-      name: 'Product 1',
-      price: 100,
-      quantity: 1,
-      img: 'https://placehold.co/64x64',
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      price: 200,
-      quantity: 1,
-      img: 'https://placehold.co/64x64',
-    },
-    {
-      id: '3',
-      name: 'Product 3',
-      price: 300,
-      quantity: 1,
-      img: 'https://placehold.co/64x64',
-    },
-  ]);
+  let cartItems = $state<ProductCart[]>([]);
   let total = $state(0);
 
   const toggleCartSheet = () => {
@@ -73,6 +51,10 @@ const cartStore = () => {
     cartItems = [...cartItems, item];
   };
 
+  const setCartItems = (items: ProductCart[]) => {
+    cartItems = items;
+  };
+
   return {
     isOpenCartSheet() {
       return isOpenCartSheet;
@@ -86,6 +68,7 @@ const cartStore = () => {
     decrementQuantity,
     setOpenCartSheet,
     removeCartItem,
+    setCartItems,
   };
 };
 
