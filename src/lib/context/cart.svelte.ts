@@ -25,6 +25,10 @@ const cartStore = () => {
     isCartItemsLoading = false;
   });
 
+  $effect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  });
+
   const toggleCartSheet = () => {
     isOpenCartSheet = !isOpenCartSheet;
   };
