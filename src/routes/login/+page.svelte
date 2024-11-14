@@ -10,9 +10,12 @@
   } from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
+  import { getCartContext } from '$lib/context/cart.svelte';
   import type { SubmitFunction } from '@sveltejs/kit';
 
   let isPending = $state(false);
+
+  const { cartItems } = getCartContext();
 
   const handleSubmit: SubmitFunction = () => {
     isPending = true;
@@ -21,6 +24,12 @@
       applyAction(result);
     };
   };
+  const itemsIds = $derived(
+    cartItems().map((item) => ({
+      id: item.productId,
+      quantity: item.quantity,
+    })),
+  );
 </script>
 
 <div class="flex items-center justify-center">
@@ -33,6 +42,11 @@
     </CardHeader>
     <CardContent class="space-y-2">
       <form method="post" action="?/login" use:enhance={handleSubmit}>
+        <input
+          type="hidden"
+          name="cartItems"
+          value={JSON.stringify(itemsIds)}
+        />
         <div class="space-y-4">
           <div class="space-y-2">
             <Label for="email">Correo electrónico</Label>
