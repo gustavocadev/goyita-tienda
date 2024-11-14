@@ -59,11 +59,11 @@
                     class="h-8 w-8"
                     onclick={() => {
                       if (cartProduct.quantity === 1) {
-                        removeCartItem(cartProduct.id);
+                        removeCartItem(cartProduct.productId);
                         return;
                       }
 
-                      decrementQuantity(cartProduct.id);
+                      decrementQuantity(cartProduct.productId);
                     }}
                   >
                     <Minus class="h-3 w-3" />
@@ -73,7 +73,7 @@
                     variant="ghost"
                     size="icon"
                     class="h-8 w-8"
-                    onclick={() => incrementQuantity(cartProduct.id)}
+                    onclick={() => incrementQuantity(cartProduct.productId)}
                   >
                     <Plus class="h-3 w-3" />
                   </Button>
