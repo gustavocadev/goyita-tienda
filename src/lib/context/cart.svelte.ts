@@ -1,7 +1,7 @@
 import { getContext, onMount, setContext } from 'svelte';
 
 type ProductCart = {
-  id: string;
+  productId: string;
   name: string;
   price: number;
   quantity: number;
@@ -39,7 +39,7 @@ const cartStore = () => {
 
   const incrementQuantity = (id: string) => {
     cartItems = cartItems.map((item) => {
-      if (item.id !== id) return item;
+      if (item.productId !== id) return item;
 
       return {
         ...item,
@@ -50,7 +50,7 @@ const cartStore = () => {
 
   const decrementQuantity = (id: string) => {
     cartItems = cartItems.map((item) => {
-      if (item.id !== id) return item;
+      if (item.productId !== id) return item;
 
       return {
         ...item,
@@ -60,7 +60,7 @@ const cartStore = () => {
   };
 
   const removeCartItem = (id: string) => {
-    cartItems = cartItems.filter((item) => item.id !== id);
+    cartItems = cartItems.filter((item) => item.productId !== id);
   };
 
   const addCartItem = (item: ProductCart) => {

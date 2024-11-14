@@ -24,7 +24,7 @@
   ];
 
   const existsProduct = $derived(
-    cartItems().some((cartItem) => cartItem.id === data.product.id),
+    cartItems().some((cartItem) => cartItem.productId === data.product.id),
   );
 
   const addProductToCart = () => {
@@ -36,7 +36,7 @@
       data.product.expand?.product_prices_via_product_id[0].price;
 
     addCartItem({
-      id: data.product.id,
+      productId: data.product.id,
       name: data.product.name,
       price: productPrice,
       quantity: 1,
