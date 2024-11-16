@@ -3,6 +3,18 @@
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
+  import type { UsersResponse } from '../../../pocketbase-types';
+  import { goto } from '$app/navigation';
+  import { applyAction, enhance } from '$app/forms';
+  import type { SubmitFunction } from '@sveltejs/kit';
+
+  type Props = {
+    user: UsersResponse;
+  };
+
+  let { user }: Props = $props();
+
+  let isLoading = $state(false);
 
   let {
     decrementQuantity,
@@ -11,6 +23,8 @@
     isOpenCartSheet,
     cartItems,
     removeCartItem,
+    toggleCartSheet,
+    isUserLoggedIn,
   } = getCartContext();
 
   const productTotal = $derived(
@@ -18,6 +32,31 @@
       return acc + cartItem.price * cartItem.quantity;
     }, 0),
   );
+
+  const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
+    const productId = formData.get('productId');
+    return async ({ result }) => {
+      applyAction(result);
+    };
+  };
+
+  const handleDecrementSubmit: SubmitFunction = ({ formData }) => {
+    const productId = formData.get('productId') as string;
+
+    console.log({ productId });
+    const cartProduct = cartItems().find(
+      (item) => item.productId === productId,
+    );
+    if (cartProduct!.quantity === 1) {
+      removeCartItem(productId);
+      return;
+    }
+
+    decrementQuantity(productId);
+    return async ({ result }) => {
+      applyAction(result);
+    };
+  };
 </script>
 
 <Sheet
@@ -53,30 +92,37 @@
               <div class="flex items-center justify-between">
                 <span class="font-medium">S/. {cartProduct.price}</span>
                 <div class="flex items-center gap-3 bg-white/5 rounded-lg">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    class="h-8 w-8"
-                    onclick={() => {
-                      if (cartProduct.quantity === 1) {
-                        removeCartItem(cartProduct.productId);
-                        return;
-                      }
-
-                      decrementQuantity(cartProduct.productId);
-                    }}
+                  <form
+                    method="post"
+                    use:enhance={handleDecrementSubmit}
+                    action={isUserLoggedIn() ? '/?/decrementItem' : undefined}
                   >
-                    <Minus class="h-3 w-3" />
-                  </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="h-8 w-8"
+                      type="submit"
+                      name="productId"
+                      value={cartProduct.productId}
+                    >
+                      <Minus class="h-3 w-3" />
+                    </Button>
+                  </form>
                   <span class="w-4 text-center">{cartProduct.quantity}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    class="h-8 w-8"
-                    onclick={() => incrementQuantity(cartProduct.productId)}
+                  <form
+                    action={isUserLoggedIn() ? '/?/decrementItem' : undefined}
+                    method="post"
+                    use:enhance={handleIncrementSubmit}
                   >
-                    <Plus class="h-3 w-3" />
-                  </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="h-8 w-8"
+                      onclick={() => incrementQuantity(cartProduct.productId)}
+                    >
+                      <Plus class="h-3 w-3" />
+                    </Button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -97,7 +143,17 @@
             <span>Total ({cartItems().length} productos)</span>
             <span>S/.{productTotal}</span>
           </div>
-          <Button class="w-full ">
+
+          <Button
+            class="w-full"
+            disabled={isLoading}
+            onclick={async () => {
+              isLoading = true;
+              await goto('/carrito');
+              isLoading = false;
+              toggleCartSheet();
+            }}
+          >
             Completa tu compra!
             <WalletMinimal />
           </Button>
