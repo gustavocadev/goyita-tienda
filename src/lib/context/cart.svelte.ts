@@ -14,6 +14,12 @@ const cartStore = () => {
   let isCartItemsLoading = $state(true);
   let isUserLoggedIn = $state(false);
 
+  let totalAmount = $derived(
+    cartItems.reduce((acc, cartItem) => {
+      return acc + cartItem.price * cartItem.quantity;
+    }, 0)
+  );
+
   onMount(() => {
     if (!isUserLoggedIn) {
       const cartProductItems = localStorage.getItem('cartItems');
@@ -103,6 +109,9 @@ const cartStore = () => {
     removeCartItem,
     setCartItems,
     setIsUserLoggedIn,
+    totalAmount() {
+      return totalAmount;
+    },
     isUserLoggedIn() {
       return isUserLoggedIn;
     },
