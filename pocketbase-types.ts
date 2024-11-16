@@ -47,7 +47,7 @@ export type CartRecord = {
 
 export type CartItemsRecord = {
 	cart_id?: RecordIdString
-	product_id?: RecordIdString[]
+	product_id?: RecordIdString
 	quantity: number
 }
 
