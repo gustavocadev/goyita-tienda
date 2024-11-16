@@ -29,7 +29,9 @@
   } = getCartContext();
 
   const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
-    const productId = formData.get('productId');
+    const productId = formData.get('productId') as string;
+    incrementQuantity(productId);
+
     return async ({ result }) => {
       applyAction(result);
     };
@@ -113,7 +115,9 @@
                       variant="ghost"
                       size="icon"
                       class="h-8 w-8"
-                      onclick={() => incrementQuantity(cartProduct.productId)}
+                      type="submit"
+                      name="productId"
+                      value={cartProduct.productId}
                     >
                       <Plus class="h-3 w-3" />
                     </Button>
