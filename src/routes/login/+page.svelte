@@ -26,7 +26,7 @@
   };
   const itemsIds = $derived(
     cartItems().map((item) => ({
-      id: item.productId,
+      productId: item.productId,
       quantity: item.quantity,
     })),
   );
