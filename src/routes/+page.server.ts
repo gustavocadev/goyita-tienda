@@ -26,4 +26,15 @@ export const actions = {
     locals.pb.authStore.clear();
     redirect(303, '/');
   },
+  incrementItem: async ({ locals, params }) => {
+    console.log('Hello from incrementItem');
+
+    return {};
+  },
+
+  decrementItem: async ({ locals, params }) => {
+    console.log('Hello from decrementItem');
+
+    return {};
+  },
 };
