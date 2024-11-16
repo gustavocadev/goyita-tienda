@@ -75,7 +75,7 @@
           <Button>Registrase</Button>
         </a>
       {:else}
-        <UserLoggedIn />
+        <UserLoggedIn name={user.name} email={user.email} />
       {/if}
 
       <Button variant="ghost" size="icon" class="md:hidden">
