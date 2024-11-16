@@ -7,7 +7,14 @@
 
   let { children, data } = $props();
 
-  setCartContextProvider();
+  const { setIsUserLoggedIn, setCartItems } = setCartContextProvider();
+
+  $effect(() => {
+    if (data.user) {
+      setIsUserLoggedIn(true);
+      setCartItems(data.cartItems);
+    }
+  });
 </script>
 
 <ModeWatcher />
@@ -16,4 +23,4 @@
   {@render children()}
 </main>
 
-<CartSheet />
+<CartSheet user={data.user} />
