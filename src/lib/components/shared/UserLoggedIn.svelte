@@ -11,7 +11,9 @@
     DropdownMenuTrigger,
   } from '../ui/dropdown-menu';
   import { Button } from '../ui/button';
-  import { enhance } from '$app/forms';
+  import { applyAction, enhance } from '$app/forms';
+  import type { SubmitFunction } from '@sveltejs/kit';
+  import { getCartContext } from '$lib/context/cart.svelte';
 
   interface Props {
     email: string;
@@ -19,6 +21,14 @@
   }
 
   let { email, name }: Props = $props();
+  let { setCartItems } = getCartContext();
+
+  const handleLogoutSubmit: SubmitFunction = () => {
+    setCartItems([]);
+    return ({ result }) => {
+      applyAction(result);
+    };
+  };
 </script>
 
 <DropdownMenu>
@@ -50,7 +60,7 @@
       </DropdownMenuItem>
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
-    <form action="/?/logout" use:enhance method="post">
+    <form action="/?/logout" use:enhance={handleLogoutSubmit} method="post">
       <button type="submit" class="w-full">
         <DropdownMenuItem class="hover:cursor-pointer">
           <LogOut class="w-4 h-4 mr-3 text-muted-foreground" />
