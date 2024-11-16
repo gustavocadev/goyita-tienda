@@ -94,13 +94,16 @@
                     use:enhance={handleDecrementSubmit}
                     action={isUserLoggedIn() ? '/?/decrementItem' : undefined}
                   >
+                    <input
+                      type="hidden"
+                      name="productId"
+                      value={cartProduct.productId}
+                    />
                     <Button
                       variant="ghost"
                       size="icon"
                       class="h-8 w-8"
                       type="submit"
-                      name="productId"
-                      value={cartProduct.productId}
                     >
                       <Minus class="h-3 w-3" />
                     </Button>
@@ -111,13 +114,16 @@
                     method="post"
                     use:enhance={handleIncrementSubmit}
                   >
+                    <input
+                      type="hidden"
+                      name="productId"
+                      value={cartProduct.productId}
+                    />
                     <Button
                       variant="ghost"
                       size="icon"
                       class="h-8 w-8"
                       type="submit"
-                      name="productId"
-                      value={cartProduct.productId}
                     >
                       <Plus class="h-3 w-3" />
                     </Button>
