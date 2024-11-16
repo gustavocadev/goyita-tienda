@@ -12,6 +12,13 @@
   } from '../ui/dropdown-menu';
   import { Button } from '../ui/button';
   import { enhance } from '$app/forms';
+
+  interface Props {
+    email: string;
+    name: string;
+  }
+
+  let { email, name }: Props = $props();
 </script>
 
 <DropdownMenu>
@@ -27,9 +34,9 @@
   <DropdownMenuContent class="w-56">
     <DropdownMenuLabel class="font-normal">
       <div class="flex flex-col space-y-1">
-        <p class="text-sm font-medium leading-none">John Doe</p>
+        <p class="text-sm font-medium leading-none">{name}</p>
         <p class="text-xs leading-none text-muted-foreground">
-          johndoe@example.com
+          {email}
         </p>
       </div>
     </DropdownMenuLabel>
@@ -47,7 +54,7 @@
       <button type="submit" class="w-full">
         <DropdownMenuItem class="hover:cursor-pointer">
           <LogOut class="w-4 h-4 mr-3 text-muted-foreground" />
-          Sign out
+          Cerrar sesión
         </DropdownMenuItem>
       </button>
     </form>
