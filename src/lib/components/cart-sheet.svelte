@@ -25,13 +25,8 @@
     removeCartItem,
     toggleCartSheet,
     isUserLoggedIn,
+    totalAmount,
   } = getCartContext();
-
-  const productTotal = $derived(
-    cartItems().reduce((acc, cartItem) => {
-      return acc + cartItem.price * cartItem.quantity;
-    }, 0),
-  );
 
   const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
     const productId = formData.get('productId');
@@ -141,7 +136,7 @@
           </div> -->
           <div class="flex justify-between font-medium">
             <span>Total ({cartItems().length} productos)</span>
-            <span>S/.{productTotal}</span>
+            <span>S/.{totalAmount()}</span>
           </div>
 
           <Button
