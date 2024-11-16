@@ -5,28 +5,38 @@ type ProductCart = {
   name: string;
   price: number;
   quantity: number;
-  img: string;
+  img?: string | undefined;
 };
 
 const cartStore = () => {
   let isOpenCartSheet = $state(false);
   let cartItems = $state<ProductCart[]>([]);
-  let total = $state(0);
   let isCartItemsLoading = $state(true);
+  let isUserLoggedIn = $state(false);
 
   onMount(() => {
-    const cartProductItems = localStorage.getItem('cartItems');
-    if (cartProductItems) {
-      setCartItems(JSON.parse(cartProductItems));
+    if (!isUserLoggedIn) {
+      const cartProductItems = localStorage.getItem('cartItems');
+      if (cartProductItems) {
+        setCartItems(JSON.parse(cartProductItems));
+        isCartItemsLoading = false;
+        return;
+      }
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
       isCartItemsLoading = false;
-      return;
     }
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    isCartItemsLoading = false;
   });
 
   $effect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    if (!isUserLoggedIn) {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
+  });
+
+  $effect(() => {
+    if (isUserLoggedIn) {
+      localStorage.clear();
+    }
   });
 
   const toggleCartSheet = () => {
@@ -71,6 +81,10 @@ const cartStore = () => {
     cartItems = items;
   };
 
+  const setIsUserLoggedIn = (value: boolean) => {
+    isUserLoggedIn = value;
+  };
+
   return {
     isOpenCartSheet() {
       return isOpenCartSheet;
@@ -88,6 +102,10 @@ const cartStore = () => {
     setOpenCartSheet,
     removeCartItem,
     setCartItems,
+    setIsUserLoggedIn,
+    isUserLoggedIn() {
+      return isUserLoggedIn;
+    },
   };
 };
 
