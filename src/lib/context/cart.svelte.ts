@@ -5,7 +5,7 @@ type ProductCart = {
   name: string;
   price: number;
   quantity: number;
-  img?: string | undefined;
+  img?: string[];
 };
 
 const cartStore = () => {
