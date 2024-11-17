@@ -24,7 +24,7 @@
   ];
 
   const existsProduct = $derived(
-    cartItems().some((cartItem) => cartItem.productId === data.product.id),
+    cartItems.value.some((cartItem) => cartItem.productId === data.product.id),
   );
 
   const addProductToCart = () => {
@@ -42,7 +42,7 @@
       quantity: 1,
       img: pb.files.getUrl(data.product, data.product.img),
     });
-    localStorage.setItem('cartItems', JSON.stringify(cartItems()));
+    localStorage.setItem('cartItems', JSON.stringify(cartItems.value));
     toggleCartSheet();
   };
 </script>
@@ -98,7 +98,7 @@
       {data.product.description}
     </p>
 
-    {#if data.product.expand?.product_prices_via_product_id && !isCartItemsLoading()}
+    {#if data.product.expand?.product_prices_via_product_id && !isCartItemsLoading.value}
       <!-- <p>
       {data.product.expand?.product_prices_via_product_id[0].price}
     </p> -->
