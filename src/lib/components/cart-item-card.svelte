@@ -15,7 +15,7 @@
 <div class="flex items-center gap-4">
   <img
     src={productImg}
-    alt="Vue.js Course Thumbnail"
+    alt="Product Thumbnail"
     width={120}
     height={68}
     class="rounded-lg object-cover"
