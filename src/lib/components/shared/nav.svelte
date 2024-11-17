@@ -59,7 +59,7 @@
       <LightSwitch />
 
       <Button
-        href="/cart"
+        type="button"
         class="relative"
         variant="ghost"
         onclick={() => {
