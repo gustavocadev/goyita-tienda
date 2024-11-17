@@ -4,6 +4,12 @@
   import { ArrowLeft, ArrowRight } from 'lucide-svelte';
   import { Button } from './ui/button';
 
+  interface Props {
+    images: { url: string }[];
+  }
+
+  let { images }: Props = $props();
+
   let api = $state<CarouselAPI>();
   let current = $state(0);
   const count = $derived(api ? api.scrollSnapList().length : 0);
@@ -16,14 +22,25 @@
       });
     }
   });
+  $effect(() => {
+    console.log(images);
+  });
 </script>
 
 <Carousel.Root class="w-full" setApi={(emblaApi) => (api = emblaApi)}>
   <Carousel.Content>
-    {#each Array(3) as _, i (i)}
+    {#each images as img}
       <Carousel.Item>
         <img
-          src={`https://picsum.photos/seed/${i + 3}/800/600`}
+          src={img.url}
+          class="w-full h-full object-cover rounded-md"
+          alt="Product image"
+        />
+      </Carousel.Item>
+    {:else}
+      <Carousel.Item>
+        <img
+          src="https://placehold.co/500"
           class="w-full h-full object-cover rounded-md"
           alt="Product image"
         />
@@ -53,7 +70,7 @@
 </Carousel.Root>
 
 <div class="mt-8 flex gap-4 justify-center">
-  {#each Array(3) as image, idx}
+  {#each images as img, idx}
     <button
       onclick={() => {
         api?.scrollTo(idx);
@@ -61,8 +78,16 @@
       class={`relative aspect-square w-24 rounded-lg overflow-hidden ${current - 1 === idx ? 'ring-2 ring-blue-600' : ''}`}
     >
       <img
-        src={`https://picsum.photos/seed/${idx + 3}/800/600`}
+        src={img.url}
         alt={`Product thumbnail ${idx + 1}`}
+        class="object-cover"
+      />
+    </button>
+  {:else}
+    <button class="relative aspect-square w-24 rounded-lg overflow-hidden">
+      <img
+        src="https://placehold.co/500"
+        alt="Product thumbnail"
         class="object-cover"
       />
     </button>
