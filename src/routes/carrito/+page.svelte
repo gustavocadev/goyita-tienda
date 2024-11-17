@@ -4,17 +4,17 @@
   import { getCartContext } from '$lib/context/cart.svelte';
   import { CircleIcon } from 'lucide-svelte';
 
-  let { totalAmount, cartItems } = getCartContext();
+  let { getTotalAmount, cartItems } = getCartContext();
 </script>
 
 <Card>
   <CardContent class="p-6 space-y-4">
     <div class="flex items-center gap-2 text-sm text-muted-foreground">
       <CircleIcon class="h-4 w-4" />
-      <span>{cartItems().length} Productos</span>
+      <span>{cartItems.value.length} Productos</span>
     </div>
     <div class="flex justify-between items-center">
-      <span class="text-4xl font-bold">S/{totalAmount()}</span>
+      <span class="text-4xl font-bold">S/{getTotalAmount()}</span>
       <div class="flex items-center gap-1 text-sm">
         <span>PEN</span>
         <CircleIcon class="h-4 w-4" />
