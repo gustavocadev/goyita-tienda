@@ -11,6 +11,7 @@
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import type { SubmitFunction } from '@sveltejs/kit';
+  import { toast } from 'svelte-sonner';
 
   let isPending = $state(false);
 
@@ -18,7 +19,8 @@
     isPending = true;
     return async ({ result }) => {
       isPending = false;
-      applyAction(result);
+      await applyAction(result);
+      toast.success('Cuenta creada correctamente');
     };
   };
 </script>
