@@ -36,8 +36,6 @@ export const actions = {
     }
     const { email, password, cartItems } = form.data;
 
-    console.log(cartItems);
-
     await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const authData = await locals.pb
