@@ -14,7 +14,9 @@
     if (data.user) {
       setIsUserLoggedIn(true);
       setCartItems(data.cartItems);
+      return;
     }
+    setIsUserLoggedIn(false);
   });
 </script>
 
