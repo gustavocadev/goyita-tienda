@@ -3,7 +3,8 @@ import type {
   ProductsResponse,
 } from '../../pocketbase-types.js';
 
-export const load = async ({ locals }) => {
+export const load = async ({ locals, depends }) => {
+  depends('remove:items');
   const cartItems = await locals.pb.collection('cart_items').getFullList<
     CartItemsResponse<{
       product_id: ProductsResponse;
