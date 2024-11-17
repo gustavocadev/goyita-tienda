@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import { superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { valibot } from 'sveltekit-superforms/adapters';
 import { fail, redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }) => {
@@ -11,16 +11,16 @@ export const load = async ({ locals }) => {
   return {};
 };
 
-const schema = z.object({
-  fullName: z.string().min(1),
-  email: z.string().email(),
-  password: z.string().min(8),
-  passwordConfirm: z.string().min(8),
+const schema = v.object({
+  fullName: v.pipe(v.string(), v.minLength(1)),
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+  passwordConfirm: v.pipe(v.string(), v.minLength(8)),
 });
 
 export const actions = {
   register: async ({ request, locals }) => {
-    const form = await superValidate(request, zod(schema));
+    const form = await superValidate(request, valibot(schema));
 
     if (!form.valid) {
       return fail(400, { form });

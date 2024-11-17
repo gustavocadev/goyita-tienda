@@ -1,8 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { zod } from 'sveltekit-superforms/adapters';
+import { valibot } from 'sveltekit-superforms/adapters';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import { z } from 'zod';
 import type { TypedPocketBase } from '../../../pocketbase-types.js';
+import * as v from 'valibot';
 
 export const load = async ({ locals }) => {
   const isValidSession = locals.pb.authStore.isValid;
@@ -12,21 +12,24 @@ export const load = async ({ locals }) => {
   return {};
 };
 
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  cartItems: z.string().transform((val) => {
-    const parsedValue = JSON.parse(val) as {
-      quantity: number;
-      productId: string;
-    }[];
-    return parsedValue;
-  }),
+const schema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+  cartItems: v.pipe(
+    v.string(),
+    v.transform((val) => {
+      const parsedValue = JSON.parse(val) as {
+        quantity: number;
+        productId: string;
+      }[];
+      return parsedValue;
+    })
+  ),
 });
 
 export const actions = {
   login: async ({ request, locals }) => {
-    const form = await superValidate(request, zod(schema));
+    const form = await superValidate(request, valibot(schema));
 
     if (!form.valid) {
       return fail(400, { form });
