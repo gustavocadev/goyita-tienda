@@ -12,8 +12,6 @@
     user: UsersResponse;
   };
 
-  let { user }: Props = $props();
-
   let isLoading = $state(false);
 
   let {
@@ -22,34 +20,18 @@
     setOpenCartSheet,
     isOpenCartSheet,
     cartItems,
-    removeCartItem,
     toggleCartSheet,
     isUserLoggedIn,
     getTotalAmount,
   } = getCartContext();
 
-  const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
-    // const productId = formData.get('productId') as string;
-    // incrementQuantity(productId);
-
+  const handleIncrementSubmit: SubmitFunction = () => {
     return async ({ result }) => {
       applyAction(result);
     };
   };
 
-  const handleDecrementSubmit: SubmitFunction = ({ formData }) => {
-    // const productId = formData.get('productId') as string;
-
-    // console.log({ productId });
-    // const cartProduct = cartItems.value.find(
-    //   (item) => item.productId === productId,
-    // );
-    // if (cartProduct!.quantity === 1) {
-    //   removeCartItem(productId);
-    //   return;
-    // }
-
-    // decrementQuantity(productId);
+  const handleDecrementSubmit: SubmitFunction = () => {
     return async ({ result }) => {
       applyAction(result);
     };
@@ -71,7 +53,10 @@
     <div class="flex flex-col h-full">
       <div class="flex-1 overflow-auto p-4">
         {#each cartItems.value as cartProduct}
-          <div class="flex gap-3 pb-4 border-b mt-4">
+          <div
+            class="flex gap-3 pb-4 border-b mt-4"
+            class:hidden={cartProduct.quantity === 0}
+          >
             <figure class="relative h-16 w-16 overflow-hidden rounded">
               <img
                 src={cartProduct.img}
@@ -106,11 +91,6 @@
                       size="icon"
                       class="h-8 w-8"
                       onclick={() => {
-                        if (cartProduct.quantity === 1) {
-                          removeCartItem(cartProduct.productId);
-                          return;
-                        }
-
                         decrementQuantity(cartProduct.productId);
                       }}
                       type={isUserLoggedIn.value ? 'submit' : 'button'}
@@ -144,7 +124,7 @@
                         incrementQuantity(cartProduct.productId);
                       }}
                     >
-                      <Plus class="h-3 w-3" />
+                      <Plus class="size-3" />
                     </Button>
                   </form>
                 </div>
