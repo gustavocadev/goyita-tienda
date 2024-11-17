@@ -25,4 +25,4 @@
   {@render children()}
 </main>
 
-<CartSheet user={data.user} />
+<CartSheet />
