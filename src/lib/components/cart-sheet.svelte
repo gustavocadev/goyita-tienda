@@ -3,14 +3,9 @@
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import type { UsersResponse } from '../../../pocketbase-types';
   import { goto } from '$app/navigation';
   import { applyAction, enhance } from '$app/forms';
   import type { SubmitFunction } from '@sveltejs/kit';
-
-  type Props = {
-    user: UsersResponse;
-  };
 
   let isLoading = $state(false);
 
