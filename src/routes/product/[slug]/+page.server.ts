@@ -1,3 +1,4 @@
+import type { Actions } from '@sveltejs/kit';
 import type {
   ProductPricesRecord,
   ProductsResponse,
@@ -23,4 +24,25 @@ export const load = async ({ locals, params }) => {
     product,
     productImages,
   };
+};
+
+export const actions: Actions = {
+  addProductToCart: async ({ locals, params }) => {
+    const productId = params.slug!;
+    const product = await locals.pb.collection('products').getOne(productId);
+    const cart = await locals.pb.collection('cart').getFullList();
+
+    if (cart.length === 0) {
+      throw new Error('No cart found');
+    }
+
+    const [cartFound] = cart;
+    await locals.pb.collection('cart_items').create({
+      product_id: product.id,
+      cart_id: cartFound.id,
+      quantity: 1,
+    });
+
+    return {};
+  },
 };
