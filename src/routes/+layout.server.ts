@@ -25,7 +25,7 @@ export const load = async ({ locals }) => {
       productId: cartItem.expand?.product_id.id!,
       quantity: cartItem.quantity,
       name: cartItem.expand?.product_id.name!,
-      img: cartItem.expand?.product_id.img,
+      img: cartItem.expand?.product_id.img!,
       price: productPrice?.price!,
     };
   });
