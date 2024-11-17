@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import ProductCarousel from '$lib/components/product-carousel.svelte';
   import Badge from '$lib/components/ui/badge/badge.svelte';
   import { Button } from '$lib/components/ui/button';
@@ -8,8 +9,13 @@
 
   let { data } = $props();
 
-  const { addCartItem, toggleCartSheet, cartItems, isCartItemsLoading } =
-    getCartContext();
+  const {
+    addCartItem,
+    toggleCartSheet,
+    cartItems,
+    isCartItemsLoading,
+    isUserLoggedIn,
+  } = getCartContext();
 
   const colors = [
     { id: 'black', name: 'Black' },
@@ -40,7 +46,7 @@
       name: data.product.name,
       price: productPrice,
       quantity: 1,
-      img: pb.files.getUrl(data.product, data.product.img[0]),
+      img: [pb.files.getUrl(data.product, data.product.img[0])],
     });
     localStorage.setItem('cartItems', JSON.stringify(cartItems.value));
     toggleCartSheet();
@@ -102,18 +108,31 @@
       <!-- <p>
       {data.product.expand?.product_prices_via_product_id[0].price}
     </p> -->
-      <Button
-        type="button"
-        variant={existsProduct ? 'outline' : 'default'}
-        onclick={() => addProductToCart()}
+      <form
+        action="?/addProductToCart"
+        method="post"
+        use:enhance
+        class="w-full"
       >
-        {#if existsProduct}
-          Agregado al carrito
-        {:else}
-          Comprar ahora
-        {/if}
-        <!-- <Plus class="h-5 w-5" /> -->
-      </Button>
+        <Button
+          type={isUserLoggedIn.value ? 'submit' : 'button'}
+          variant={existsProduct ? 'outline' : 'default'}
+          class="w-full"
+          onclick={() => {
+            if (!isUserLoggedIn.value) {
+              addProductToCart();
+              return;
+            }
+          }}
+        >
+          {#if existsProduct}
+            Agregado al carrito
+          {:else}
+            Comprar ahora
+          {/if}
+          <!-- <Plus class="h-5 w-5" /> -->
+        </Button>
+      </form>
     {:else}
       <Skeleton class="w-full h-10" />
     {/if}
