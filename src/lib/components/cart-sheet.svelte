@@ -55,7 +55,9 @@
           >
             <figure class="relative h-16 w-16 overflow-hidden rounded">
               <img
-                src={cartProduct.img}
+                src={cartProduct.img !== ''
+                  ? cartProduct.img
+                  : 'https://placehold.co/500'}
                 alt="Imagen del producto"
                 width={64}
                 height={64}
