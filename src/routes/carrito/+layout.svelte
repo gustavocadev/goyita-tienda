@@ -6,7 +6,7 @@
 
   let { children } = $props();
 
-  let { cartItems, totalAmount } = getCartContext();
+  let { cartItems, getTotalAmount } = getCartContext();
 </script>
 
 <div class="min-h-screen bg-background p-8">
@@ -46,7 +46,7 @@
       <Card>
         <CardContent class="p-6">
           <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
-          {#each cartItems() as cartItem}
+          {#each cartItems.value as cartItem}
             <CartItemCard
               productTitle={cartItem.name}
               productPrice={cartItem.price}
@@ -59,7 +59,7 @@
           </div>
           <div class="mt-4 flex justify-between border-t pt-4">
             <span class="font-medium">Total</span>
-            <span class="font-medium">S/{totalAmount()} SOL</span>
+            <span class="font-medium">S/{getTotalAmount()} SOL</span>
           </div>
         </CardContent>
       </Card>
