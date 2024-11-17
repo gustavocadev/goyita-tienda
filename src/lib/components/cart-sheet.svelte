@@ -25,7 +25,7 @@
     removeCartItem,
     toggleCartSheet,
     isUserLoggedIn,
-    totalAmount,
+    getTotalAmount,
   } = getCartContext();
 
   const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
@@ -41,7 +41,7 @@
     const productId = formData.get('productId') as string;
 
     console.log({ productId });
-    const cartProduct = cartItems().find(
+    const cartProduct = cartItems.value.find(
       (item) => item.productId === productId,
     );
     if (cartProduct!.quantity === 1) {
@@ -57,7 +57,7 @@
 </script>
 
 <Sheet
-  open={isOpenCartSheet()}
+  open={isOpenCartSheet.value}
   onOpenChange={(value) => {
     setOpenCartSheet(value);
   }}
@@ -70,7 +70,7 @@
     </SheetHeader>
     <div class="flex flex-col h-full">
       <div class="flex-1 overflow-auto p-4">
-        {#each cartItems() as cartProduct}
+        {#each cartItems.value as cartProduct}
           <div class="flex gap-3 pb-4 border-b mt-4">
             <figure class="relative h-16 w-16 overflow-hidden rounded">
               <img
@@ -92,7 +92,9 @@
                   <form
                     method="post"
                     use:enhance={handleDecrementSubmit}
-                    action={isUserLoggedIn() ? '/?/decrementItem' : undefined}
+                    action={isUserLoggedIn.value
+                      ? '/?/decrementItem'
+                      : undefined}
                   >
                     <input
                       type="hidden"
@@ -110,7 +112,9 @@
                   </form>
                   <span class="w-4 text-center">{cartProduct.quantity}</span>
                   <form
-                    action={isUserLoggedIn() ? '/?/decrementItem' : undefined}
+                    action={isUserLoggedIn.value
+                      ? '/?/decrementItem'
+                      : undefined}
                     method="post"
                     use:enhance={handleIncrementSubmit}
                   >
@@ -145,8 +149,8 @@
             <span>Calculado al finalizar</span>
           </div> -->
           <div class="flex justify-between font-medium">
-            <span>Total ({cartItems().length} productos)</span>
-            <span>S/.{totalAmount()}</span>
+            <span>Total ({cartItems.value.length} productos)</span>
+            <span>S/.{getTotalAmount()}</span>
           </div>
 
           <Button
