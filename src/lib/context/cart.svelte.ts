@@ -9,52 +9,53 @@ type ProductCart = {
 };
 
 const cartStore = () => {
-  let isOpenCartSheet = $state(false);
-  let cartItems = $state<ProductCart[]>([]);
-  let isCartItemsLoading = $state(true);
-  let isUserLoggedIn = $state(false);
+  let isOpenCartSheet = $state({ value: false });
+  let cartItems = $state<{ value: ProductCart[] }>({ value: [] });
+  let isCartItemsLoading = $state({ value: true });
+  let isUserLoggedIn = $state({ value: false });
 
-  let totalAmount = $derived(
-    cartItems.reduce((acc, cartItem) => {
+  const getTotalAmount = () => {
+    const totalAmount = cartItems.value.reduce((acc, cartItem) => {
       return acc + cartItem.price * cartItem.quantity;
-    }, 0)
-  );
+    }, 0);
+    return totalAmount;
+  };
 
   onMount(() => {
-    if (!isUserLoggedIn) {
+    if (!isUserLoggedIn.value) {
       const cartProductItems = localStorage.getItem('cartItems');
       if (cartProductItems) {
         setCartItems(JSON.parse(cartProductItems));
-        isCartItemsLoading = false;
+        isCartItemsLoading.value = false;
         return;
       }
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      isCartItemsLoading = false;
+      localStorage.setItem('cartItems', JSON.stringify(cartItems.value));
+    }
+    isCartItemsLoading.value = false;
+  });
+
+  $effect(() => {
+    if (!isUserLoggedIn.value) {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems.value));
     }
   });
 
   $effect(() => {
-    if (!isUserLoggedIn) {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-  });
-
-  $effect(() => {
-    if (isUserLoggedIn) {
+    if (isUserLoggedIn.value) {
       localStorage.clear();
     }
   });
 
   const toggleCartSheet = () => {
-    isOpenCartSheet = !isOpenCartSheet;
+    isOpenCartSheet.value = !isOpenCartSheet.value;
   };
 
   const setOpenCartSheet = (value: boolean) => {
-    isOpenCartSheet = value;
+    isOpenCartSheet.value = value;
   };
 
   const incrementQuantity = (id: string) => {
-    cartItems = cartItems.map((item) => {
+    cartItems.value = cartItems.value.map((item) => {
       if (item.productId !== id) return item;
 
       return {
@@ -65,7 +66,7 @@ const cartStore = () => {
   };
 
   const decrementQuantity = (id: string) => {
-    cartItems = cartItems.map((item) => {
+    cartItems.value = cartItems.value.map((item) => {
       if (item.productId !== id) return item;
 
       return {
@@ -76,31 +77,25 @@ const cartStore = () => {
   };
 
   const removeCartItem = (id: string) => {
-    cartItems = cartItems.filter((item) => item.productId !== id);
+    cartItems.value = cartItems.value.filter((item) => item.productId !== id);
   };
 
   const addCartItem = (item: ProductCart) => {
-    cartItems = [...cartItems, item];
+    cartItems.value = [...cartItems.value, item];
   };
 
   const setCartItems = (items: ProductCart[]) => {
-    cartItems = items;
+    cartItems.value = items;
   };
 
   const setIsUserLoggedIn = (value: boolean) => {
-    isUserLoggedIn = value;
+    isUserLoggedIn.value = value;
   };
 
   return {
-    isOpenCartSheet() {
-      return isOpenCartSheet;
-    },
-    cartItems() {
-      return cartItems;
-    },
-    isCartItemsLoading() {
-      return isCartItemsLoading;
-    },
+    isOpenCartSheet,
+    cartItems,
+    isCartItemsLoading,
     addCartItem,
     toggleCartSheet,
     incrementQuantity,
@@ -109,12 +104,8 @@ const cartStore = () => {
     removeCartItem,
     setCartItems,
     setIsUserLoggedIn,
-    totalAmount() {
-      return totalAmount;
-    },
-    isUserLoggedIn() {
-      return isUserLoggedIn;
-    },
+    getTotalAmount,
+    isUserLoggedIn,
   };
 };
 
