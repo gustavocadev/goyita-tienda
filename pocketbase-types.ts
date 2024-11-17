@@ -81,7 +81,7 @@ export type ProductInventoryRecord = {
 }
 
 export type ProductPricesRecord = {
-	is_active: boolean
+	is_active?: boolean
 	price: number
 	product_id?: RecordIdString
 	start_date?: IsoDateString
@@ -89,7 +89,7 @@ export type ProductPricesRecord = {
 
 export type ProductsRecord = {
 	description: string
-	img?: string
+	img?: string[]
 	name: string
 	status?: boolean
 }
