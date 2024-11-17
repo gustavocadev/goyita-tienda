@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Minus, Plus, WalletMinimal } from 'lucide-svelte';
+  import { Minus, Plus, Trash, WalletMinimal } from 'lucide-svelte';
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
@@ -29,8 +29,8 @@
   } = getCartContext();
 
   const handleIncrementSubmit: SubmitFunction = ({ formData }) => {
-    const productId = formData.get('productId') as string;
-    incrementQuantity(productId);
+    // const productId = formData.get('productId') as string;
+    // incrementQuantity(productId);
 
     return async ({ result }) => {
       applyAction(result);
@@ -38,18 +38,18 @@
   };
 
   const handleDecrementSubmit: SubmitFunction = ({ formData }) => {
-    const productId = formData.get('productId') as string;
+    // const productId = formData.get('productId') as string;
 
-    console.log({ productId });
-    const cartProduct = cartItems.value.find(
-      (item) => item.productId === productId,
-    );
-    if (cartProduct!.quantity === 1) {
-      removeCartItem(productId);
-      return;
-    }
+    // console.log({ productId });
+    // const cartProduct = cartItems.value.find(
+    //   (item) => item.productId === productId,
+    // );
+    // if (cartProduct!.quantity === 1) {
+    //   removeCartItem(productId);
+    //   return;
+    // }
 
-    decrementQuantity(productId);
+    // decrementQuantity(productId);
     return async ({ result }) => {
       applyAction(result);
     };
@@ -105,15 +105,27 @@
                       variant="ghost"
                       size="icon"
                       class="h-8 w-8"
-                      type="submit"
+                      onclick={() => {
+                        if (cartProduct.quantity === 1) {
+                          removeCartItem(cartProduct.productId);
+                          return;
+                        }
+
+                        decrementQuantity(cartProduct.productId);
+                      }}
+                      type={isUserLoggedIn.value ? 'submit' : 'button'}
                     >
-                      <Minus class="h-3 w-3" />
+                      {#if cartProduct.quantity === 1}
+                        <Trash class="size-3" />
+                      {:else}
+                        <Minus class="size-3" />
+                      {/if}
                     </Button>
                   </form>
                   <span class="w-4 text-center">{cartProduct.quantity}</span>
                   <form
                     action={isUserLoggedIn.value
-                      ? '/?/decrementItem'
+                      ? '/?/incrementItem'
                       : undefined}
                     method="post"
                     use:enhance={handleIncrementSubmit}
@@ -127,7 +139,10 @@
                       variant="ghost"
                       size="icon"
                       class="h-8 w-8"
-                      type="submit"
+                      type={isUserLoggedIn.value ? 'submit' : 'button'}
+                      onclick={() => {
+                        incrementQuantity(cartProduct.productId);
+                      }}
                     >
                       <Plus class="h-3 w-3" />
                     </Button>
