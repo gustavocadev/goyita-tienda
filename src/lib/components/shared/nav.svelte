@@ -6,9 +6,10 @@
   import LightSwitch from './light-switch.svelte';
   import { invalidate } from '$app/navigation';
   import UserLoggedIn from './UserLoggedIn.svelte';
+  import { Badge } from '../ui/badge';
 
   let { user } = $props();
-  let { toggleCartSheet } = getCartContext();
+  let { toggleCartSheet, cartItems } = getCartContext();
 </script>
 
 <header class="px-4 flex">
@@ -56,14 +57,23 @@
 
     <div class="flex items-center flex-1 justify-end gap-2">
       <LightSwitch />
+
       <Button
+        href="/cart"
+        class="relative"
         variant="ghost"
         onclick={() => {
           toggleCartSheet();
         }}
       >
         <ShoppingCart class="size-6" />
-        <span class="sr-only">Cart</span>
+        {#if cartItems.value.length > 0}
+          <Badge
+            class="absolute -top-1 -right-1 text-[10px] size-4 p-0 flex items-center justify-center rounded-full"
+          >
+            {cartItems.value.length}
+          </Badge>
+        {/if}
       </Button>
 
       {#if !user}
