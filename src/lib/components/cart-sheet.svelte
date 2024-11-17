@@ -3,7 +3,7 @@
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import { goto } from '$app/navigation';
+  import { goto, invalidate } from '$app/navigation';
   import { applyAction, enhance } from '$app/forms';
   import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -29,7 +29,8 @@
 
   const handleDecrementSubmit: SubmitFunction = () => {
     return async ({ result }) => {
-      applyAction(result);
+      await applyAction(result);
+      invalidate('remove:items');
     };
   };
 </script>
