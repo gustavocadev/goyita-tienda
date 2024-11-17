@@ -18,6 +18,7 @@
     toggleCartSheet,
     isUserLoggedIn,
     getTotalAmount,
+    removeCartItem,
   } = getCartContext();
 
   const handleIncrementSubmit: SubmitFunction = () => {
@@ -86,6 +87,14 @@
                       size="icon"
                       class="h-8 w-8"
                       onclick={() => {
+                        if (
+                          !isUserLoggedIn.value &&
+                          cartProduct.quantity === 1
+                        ) {
+                          removeCartItem(cartProduct.productId);
+                          return;
+                        }
+
                         decrementQuantity(cartProduct.productId);
                       }}
                       type={isUserLoggedIn.value ? 'submit' : 'button'}
