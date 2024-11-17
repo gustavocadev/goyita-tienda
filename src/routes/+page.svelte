@@ -24,9 +24,9 @@
           class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"
         >
           <img
-            src={product.img
-              ? pb.files.getUrl(product, product.img)
-              : `https://placehold.co/500`}
+            src={product.img.length > 0
+              ? pb.files.getUrl(product, product.img[0])
+              : 'https://placehold.co/500'}
             alt={product.description}
             class="w-full h-full object-center object-cover lg:w-full lg:h-full"
           />
