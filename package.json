@@ -37,6 +37,6 @@
   "dependencies": {
     "@paypal/paypal-js": "^8.1.2",
     "mode-watcher": "^0.4.1",
-    "pocketbase": "^0.21.5"
+    "pocketbase": "^0.22.0"
   }
 }
