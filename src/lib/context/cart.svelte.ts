@@ -1,6 +1,6 @@
 import { getContext, onMount, setContext } from 'svelte';
 
-type ProductCart = {
+export type ProductCart = {
   productId: string;
   name: string;
   price: number;
