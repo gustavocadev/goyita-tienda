@@ -17,7 +17,7 @@
     height={68}
     class="rounded-lg object-cover"
   />
-  <div class="flex-1">
+  <div class="flex-1 space-y-1">
     <h3 class="font-semibold text-base">{cartProduct.name}</h3>
     <ProductCounter {cartProduct} />
   </div>
