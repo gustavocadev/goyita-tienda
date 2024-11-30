@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent } from '$lib/components/ui/card';
   import { getCartContext } from '$lib/context/cart.svelte';
@@ -20,6 +21,10 @@
         <CircleIcon class="h-4 w-4" />
       </div>
     </div>
-    <Button class="w-full" size="lg">Voy a comprar para mí</Button>
+    <form action="?/createOrder" method="post" use:enhance>
+      <Button class="w-full" size="lg" type="submit"
+        >Voy a comprar para mí</Button
+      >
+    </form>
   </CardContent>
 </Card>
