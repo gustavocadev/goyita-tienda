@@ -50,7 +50,7 @@
             <CartItemCard
               productTitle={cartItem.name}
               productPrice={cartItem.price}
-              productImg={cartItem.img}
+              productImg={cartItem.img[0]}
             />
           {/each}
           <div class="mt-4 text-sm">
