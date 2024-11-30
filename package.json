@@ -12,17 +12,17 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.3.1",
-    "@sveltejs/adapter-netlify": "^4.3.6",
+    "@sveltejs/adapter-netlify": "^4.4.0",
     "@sveltejs/kit": "^2.8.1",
-    "@sveltejs/vite-plugin-svelte": "^4.0.0",
-    "@types/bun": "^1.1.13",
+    "@sveltejs/vite-plugin-svelte": "^5.0.1",
+    "@types/bun": "^1.1.14",
     "autoprefixer": "^10.4.20",
     "bits-ui": "^1.0.0-next.65",
     "clsx": "^2.1.1",
     "embla-carousel-svelte": "^8.3.1",
     "lucide-svelte": "^0.454.0",
     "svelte": "^5.2.2",
-    "svelte-check": "^4.0.9",
+    "svelte-check": "^4.1.0",
     "svelte-radix": "^2.0.1",
     "svelte-sonner": "^0.3.28",
     "sveltekit-superforms": "^2.20.0",
@@ -32,7 +32,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.0.0",
     "valibot": "^0.42.1",
-    "vite": "^5.4.10"
+    "vite": "^6.0.1"
   },
   "dependencies": {
     "@paypal/paypal-js": "^8.1.2",
