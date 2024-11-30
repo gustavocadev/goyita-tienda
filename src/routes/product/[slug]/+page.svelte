@@ -118,6 +118,7 @@
           type={isUserLoggedIn.value ? 'submit' : 'button'}
           variant={existsProduct ? 'outline' : 'default'}
           class="w-full"
+          disabled={existsProduct}
           onclick={() => {
             if (!isUserLoggedIn.value) {
               addProductToCart();
