@@ -8,22 +8,20 @@
   let { getTotalAmount, cartItems } = getCartContext();
 </script>
 
-<Card>
-  <CardContent class="p-6 space-y-4">
+<Card class="row-span-1">
+  <CardContent
+    class="p-6 space-y-4 flex justify-center items-center flex-col h-full"
+  >
     <div class="flex items-center gap-2 text-sm text-muted-foreground">
-      <CircleIcon class="h-4 w-4" />
+      <CircleIcon class="size-4" />
       <span>{cartItems.value.length} Productos</span>
     </div>
     <div class="flex justify-between items-center">
       <span class="text-4xl font-bold">S/{getTotalAmount()}</span>
-      <div class="flex items-center gap-1 text-sm">
-        <span>PEN</span>
-        <CircleIcon class="h-4 w-4" />
-      </div>
     </div>
     <form action="?/createOrder" method="post" use:enhance>
       <Button class="w-full" size="lg" type="submit"
-        >Voy a comprar para mí</Button
+        >Voy a comprar para mí 🛒</Button
       >
     </form>
   </CardContent>
