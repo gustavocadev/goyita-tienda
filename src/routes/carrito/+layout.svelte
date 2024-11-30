@@ -54,17 +54,12 @@
       </div>
     </div>
 
-    <div class="gap-6 lg:grid-cols-2 grid">
-      <Card>
+    <div class="gap-6 lg:grid-cols-2 lg:grid-rows-3 grid">
+      <Card class="row-span-2">
         <CardContent class="p-6">
           <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
           {#each cartItems.value as cartItem}
-            <CartItemCard
-              productTitle={cartItem.name}
-              productPrice={cartItem.price}
-              productImg={cartItem.img[0]}
-              productQuantity={cartItem.quantity}
-            />
+            <CartItemCard cartProduct={cartItem} />
           {/each}
           <div class="mt-4 text-sm">
             <button class="text-primary">¿Necesitas ayuda con tu compra?</button
@@ -72,7 +67,10 @@
           </div>
           <div class="mt-4 flex justify-between border-t pt-4">
             <span class="font-medium">Total</span>
-            <span class="font-medium">S/{getTotalAmount()} SOL</span>
+            <span
+              class="text-green-600 dark:text-green-400 font-semibold text-lg"
+              >S/{getTotalAmount()} SOL</span
+            >
           </div>
         </CardContent>
       </Card>
