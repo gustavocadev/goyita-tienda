@@ -1,10 +1,15 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import CartItemCard from '$lib/components/cart-item-card.svelte';
   import { Card, CardContent } from '$lib/components/ui/card';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import { CircleIcon, ShoppingCartIcon } from 'lucide-svelte';
+  import { ShoppingCartIcon, Trophy, Wallet } from 'lucide-svelte';
 
-  let { children } = $props();
+  let { children, data } = $props();
+
+  $effect(() => {
+    console.log({ data });
+  });
 
   let { cartItems, getTotalAmount } = getCartContext();
 </script>
@@ -16,7 +21,9 @@
     <div class="flex items-center justify-between">
       <div class="flex flex-col items-center gap-2">
         <div
-          class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground"
+          class="flex h-8 w-8 items-center justify-center rounded-full"
+          class:bg-primary={$page.url.pathname === '/carrito'}
+          class:text-primary-foreground={$page.url.pathname === '/carrito'}
         >
           <ShoppingCartIcon class="h-4 w-4" />
         </div>
@@ -26,8 +33,10 @@
       <div class="flex flex-col items-center gap-2">
         <div
           class="flex h-8 w-8 items-center justify-center rounded-full border border-border"
+          class:bg-primary={$page.url.pathname === '/carrito/pago'}
+          class:text-primary-foreground={$page.url.pathname === '/carrito/pago'}
         >
-          <CircleIcon class="h-4 w-4" />
+          <Wallet class="h-4 w-4" />
         </div>
         <span class="text-sm text-muted-foreground">Pago</span>
       </div>
@@ -35,8 +44,11 @@
       <div class="flex flex-col items-center gap-2">
         <div
           class="flex h-8 w-8 items-center justify-center rounded-full border border-border"
+          class:bg-primary={$page.url.pathname === '/carrito/pago/confirmacion'}
+          class:text-primary-foreground={$page.url.pathname ===
+            '/carrito/pago/confirmacion'}
         >
-          <CircleIcon class="h-4 w-4" />
+          <Trophy class="h-4 w-4" />
         </div>
         <span class="text-sm text-muted-foreground">Confirmado</span>
       </div>
@@ -51,6 +63,7 @@
               productTitle={cartItem.name}
               productPrice={cartItem.price}
               productImg={cartItem.img[0]}
+              productQuantity={cartItem.quantity}
             />
           {/each}
           <div class="mt-4 text-sm">
