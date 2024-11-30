@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { loadScript } from '@paypal/paypal-js';
+  import { PUBLIC_PAYPAL_CLIENT_ID } from '$env/static/public';
 
   onMount(async () => {
     const paypal = await loadScript({
-      clientId: '',
+      clientId: PUBLIC_PAYPAL_CLIENT_ID,
     });
     if (!paypal) return;
     if (!paypal.Buttons) return;
