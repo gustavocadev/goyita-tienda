@@ -16,7 +16,7 @@ export const load = async ({ locals, params }) => {
 
   const productImages = product.img.map((img) => {
     return {
-      url: locals.pb.files.getUrl(product, img),
+      url: locals.pb.files.getURL(product, img),
     };
   });
 

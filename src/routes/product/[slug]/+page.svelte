@@ -46,7 +46,7 @@
       name: data.product.name,
       price: productPrice,
       quantity: 1,
-      img: [pb.files.getUrl(data.product, data.product.img[0])],
+      img: [pb.files.getURL(data.product, data.product.img[0])],
     });
     localStorage.setItem('cartItems', JSON.stringify(cartItems.value));
     toggleCartSheet();

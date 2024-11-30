@@ -25,7 +25,7 @@
         >
           <img
             src={product.img.length > 0
-              ? pb.files.getUrl(product, product.img[0])
+              ? pb.files.getURL(product, product.img[0])
               : 'https://placehold.co/500'}
             alt={product.description}
             class="w-full h-full object-center object-cover lg:w-full lg:h-full"
