@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { Card, CardContent } from './ui/card';
-
   type Props = {
     productTitle: string;
     productPrice: number;
     productImg?: string | undefined;
+    productQuantity: number;
   };
 
   let { productTitle, productPrice, productImg }: Props = $props();
