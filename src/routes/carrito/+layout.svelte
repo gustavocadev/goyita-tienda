@@ -7,11 +7,13 @@
 
   let { children, data } = $props();
 
-  $effect(() => {
-    console.log({ data });
-  });
-
   let { cartItems, getTotalAmount } = getCartContext();
+
+  const totalOrderAmount = $derived(
+    data.order.expand?.order_items_via_order_id.reduce((acc, orderItem) => {
+      return acc + orderItem.unit_price * orderItem.quantity;
+    }, 0),
+  );
 </script>
 
 <div class="min-h-screen bg-background p-8">
@@ -58,9 +60,26 @@
       <Card class="row-span-2">
         <CardContent class="p-6">
           <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
-          {#each cartItems.value as cartItem}
-            <CartItemCard cartProduct={cartItem} />
-          {/each}
+
+          <div class="space-y-2">
+            {#if $page.url.pathname === '/carrito'}
+              {#each cartItems.value as cartItem}
+                <CartItemCard cartProduct={cartItem} />
+              {/each}
+            {:else if $page.url.pathname === '/carrito/pago' && data.order.expand?.order_items_via_order_id}
+              {#each data.order.expand?.order_items_via_order_id as orderItem}
+                <CartItemCard
+                  cartProduct={{
+                    img: ['https://placehold.it/64x64'],
+                    name: orderItem.expand?.product_id.name ?? '',
+                    price: orderItem.unit_price * orderItem.quantity,
+                    productId: orderItem.product_id,
+                    quantity: orderItem.quantity,
+                  }}
+                />
+              {/each}
+            {/if}
+          </div>
           <div class="mt-4 text-sm">
             <button class="text-primary">¿Necesitas ayuda con tu compra?</button
             >
@@ -69,7 +88,13 @@
             <span class="font-medium">Total</span>
             <span
               class="text-green-600 dark:text-green-400 font-semibold text-lg"
-              >S/{getTotalAmount()} SOL</span
+              >S/
+              {#if $page.url.pathname === '/carrito'}
+                {getTotalAmount()}
+              {:else if $page.url.pathname === '/carrito/pago'}
+                {totalOrderAmount}
+              {/if}
+              SOL</span
             >
           </div>
         </CardContent>
