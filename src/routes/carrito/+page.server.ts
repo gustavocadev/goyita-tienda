@@ -80,6 +80,8 @@ export const actions = {
         quantity: cartItem.quantity,
         unit_price: productPrice.price,
       });
+
+      await locals.pb.collection('cart_items').delete(cartItem.id);
     }
 
     redirect(303, '/carrito/pago');
