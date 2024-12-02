@@ -4,9 +4,10 @@
 
   type Props = {
     cartProduct: ProductCart;
+    orderItemId?: string;
   };
 
-  let { cartProduct }: Props = $props();
+  let { cartProduct, orderItemId }: Props = $props();
 </script>
 
 <div class="flex items-center gap-2">
@@ -19,7 +20,7 @@
   />
   <div class="flex-1 space-y-1">
     <h3 class="font-semibold text-base">{cartProduct.name}</h3>
-    <ProductCounter {cartProduct} />
+    <ProductCounter {cartProduct} {orderItemId} />
   </div>
 
   <div class="text-right">

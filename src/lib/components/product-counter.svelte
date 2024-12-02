@@ -5,9 +5,11 @@
   import type { SubmitFunction } from '@sveltejs/kit';
   import { getCartContext, type ProductCart } from '$lib/context/cart.svelte';
   import { invalidate } from '$app/navigation';
+  import { page } from '$app/stores';
 
   type Props = {
     cartProduct: ProductCart;
+    orderItemId?: string;
   };
 
   const handleIncrementSubmit: SubmitFunction = () => {
@@ -23,7 +25,7 @@
     };
   };
 
-  let { cartProduct }: Props = $props();
+  let { cartProduct, orderItemId }: Props = $props();
 
   let { decrementQuantity, incrementQuantity, isUserLoggedIn, removeCartItem } =
     getCartContext();
@@ -33,9 +35,16 @@
   <form
     method="post"
     use:enhance={handleDecrementSubmit}
-    action={isUserLoggedIn.value ? '/?/decrementItem' : undefined}
+    action={$page.url.pathname === '/carrito/pago'
+      ? '?/decrementOrderItem'
+      : isUserLoggedIn.value
+        ? '/?/decrementItem'
+        : undefined}
   >
     <input type="hidden" name="productId" value={cartProduct.productId} />
+    {#if $page.url.pathname === '/carrito/pago' && orderItemId}
+      <input type="hidden" name="orderItemId" value={orderItemId} />
+    {/if}
     <Button
       variant="ghost"
       size="icon"
@@ -59,7 +68,11 @@
   </form>
   <span class="w-4 text-center">{cartProduct.quantity}</span>
   <form
-    action={isUserLoggedIn.value ? '/?/incrementItem' : undefined}
+    action={$page.url.pathname === '/carrito/pago'
+      ? '?/incrementOrderItem'
+      : isUserLoggedIn.value
+        ? '/?/incrementItem'
+        : undefined}
     method="post"
     use:enhance={handleIncrementSubmit}
   >

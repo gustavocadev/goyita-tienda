@@ -76,6 +76,7 @@
                     productId: orderItem.product_id,
                     quantity: orderItem.quantity,
                   }}
+                  orderItemId={orderItem.id}
                 />
               {/each}
             {/if}
