@@ -32,12 +32,12 @@ export const load = async ({ locals, depends }) => {
   });
 
   return {
-    user: {
-      id: locals.user?.id,
-      username: locals.user?.username,
-      created: locals.user?.created,
-      name: locals.user?.name,
-    },
+    user: locals.user ? {
+      id: locals.user.id,
+      username: locals.user.username,
+      created: locals.user.created,
+      name: locals.user.name,
+    }: null,
     cartItems: cartItemsMapped,
   };
 };
