@@ -91,7 +91,7 @@ export const actions: Actions = {
     return {};
   },
 
-  createOrder: async ({ locals }) => {
+  createOrder: async ({ locals, url }) => {
     const order = await locals.pb.collection('orders').getFirstListItem<
       OrdersResponse<{
         order_items_via_order_id: OrderItemsResponse<{
@@ -126,6 +126,9 @@ export const actions: Actions = {
     const preference = await payment.create({
       body: {
         items: mappedItems,
+        redirect_urls: {
+          success: `${url.origin}/carrito/pago/confirmacion`,
+        },
       },
     });
 
