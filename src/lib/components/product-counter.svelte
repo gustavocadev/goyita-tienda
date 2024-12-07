@@ -36,7 +36,7 @@
     method="post"
     use:enhance={handleDecrementSubmit}
     action={$page.url.pathname === '/carrito/pago'
-      ? '?/decrementOrderItem'
+      ? 'pago/?/decrementOrderItem'
       : isUserLoggedIn.value
         ? '/?/decrementItem'
         : undefined}
@@ -69,7 +69,7 @@
   <span class="w-4 text-center">{cartProduct.quantity}</span>
   <form
     action={$page.url.pathname === '/carrito/pago'
-      ? '?/incrementOrderItem'
+      ? 'pago/?/incrementOrderItem'
       : isUserLoggedIn.value
         ? '/?/incrementItem'
         : undefined}
