@@ -2,7 +2,13 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import * as v from 'valibot';
-import type { OrderItemsResponse } from '../../../../pocketbase-types.js';
+import type {
+  OrderItemsResponse,
+  OrdersResponse,
+  ProductsResponse,
+} from '../../../../pocketbase-types.js';
+import { Preference } from 'mercadopago';
+import { client } from '$lib/mercadopago.js';
 
 export const load = async ({ locals }) => {
   const orders = await locals.pb.collection('orders').getList(1, 2, {
@@ -83,5 +89,53 @@ export const actions: Actions = {
     // });
 
     return {};
+  },
+
+  createOrder: async ({ locals }) => {
+    console.log('createOrder');
+    const order = await locals.pb.collection('orders').getFirstListItem<
+      OrdersResponse<{
+        order_items_via_order_id: OrderItemsResponse<{
+          product_id: ProductsResponse;
+        }>[];
+      }>
+    >('', {
+      sort: '-created',
+      // orders, products, product_prices
+      expand: 'order_items_via_order_id, order_items_via_order_id.product_id',
+    });
+
+    console.log(JSON.stringify(order, null, 2));
+
+    if (!order.expand) {
+      return fail(500, { message: 'No order found' });
+    }
+
+    const mappedItems = order.expand.order_items_via_order_id.map((item) => {
+      if (!item.expand) {
+        throw new Error('No product name found');
+      }
+      return {
+        title: item.expand.product_id.name,
+        quantity: item.quantity,
+        currency_id: 'PEN',
+        unit_price: item.unit_price,
+        id: item.product_id,
+        description: item.expand.product_id.description,
+      };
+    });
+
+    const payment = new Preference(client);
+    const preference = await payment.create({
+      body: {
+        items: mappedItems,
+      },
+    });
+
+    if (!preference.init_point) {
+      return fail(500, { message: 'No preference found' });
+    }
+
+    redirect(303, preference.init_point);
   },
 };
