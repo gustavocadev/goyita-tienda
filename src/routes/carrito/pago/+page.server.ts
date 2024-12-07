@@ -13,6 +13,7 @@ import { client } from '$lib/mercadopago.js';
 export const load = async ({ locals }) => {
   const orders = await locals.pb.collection('orders').getList(1, 2, {
     sort: '-created',
+    filter: 'status = 1',
   });
 
   if (orders.totalItems === 0) {
@@ -42,16 +43,32 @@ export const actions: Actions = {
       .collection('order_items')
       .getOne<OrderItemsResponse>(data.orderItemId);
 
-    // await locals.pb.collection('order_items').update(data.orderItemId, {
-    //   quantity: orderItem.quantity + 1,
-    // });
+    await locals.pb.collection('order_items').update(data.orderItemId, {
+      quantity: orderItem.quantity + 1,
+    });
+
+    const orderItems = await locals.pb.collection('order_items').getList(1, 1, {
+      sort: '-created',
+      filter: 'status = 1',
+    });
+
+    if (orderItems.totalItems === 0) {
+      return fail(500, { message: 'No order items found' });
+    }
+
+    const [lastOrderItem] = orderItems.items;
 
     // a reducer function to calculate the total amount
+    const newTotalAmount = orderItems.items.reduce(
+      (acc, item) => acc + item.quantity * item.unit_price,
+      0
+    );
 
-    // await locals.pb.collection('orders').update('', {
-    //   total_amount: 0, // TODO: calculate total amount
-    // });
-    // console.log('incrementOrderItem');
+    await locals.pb.collection('orders').update(lastOrderItem.order_id, {
+      total_amount: newTotalAmount, // TODO: calculate total amount
+    });
+
+    console.log('incrementOrderItem');
 
     return {};
   },
@@ -74,19 +91,25 @@ export const actions: Actions = {
 
     // a reducer function to calculate the total amount
     const orderItems = await locals.pb.collection('order_items').getList(1, 1, {
-      // products, product_prices
-      expand: 'product_id, product_prices',
+      sort: '-created',
+      filter: 'status = 1',
     });
 
-    // console.log(orderItems.items[0].expand.product_id);
-    // const totalAmount = orderItems.reduce(
-    //   (acc, item) => acc + item.quantity * item.price,
-    //   0
-    // );
+    if (orderItems.totalItems === 0) {
+      return fail(500, { message: 'No order items found' });
+    }
 
-    // await locals.pb.collection('orders').update('', {
-    //   total_amount: 0, // TODO: calculate total amount
-    // });
+    const [lastOrderItem] = orderItems.items;
+
+    // console.log(orderItems.items[0].expand.product_id);
+    const newTotalAmount = orderItems.items.reduce(
+      (acc, item) => acc + item.quantity * item.unit_price,
+      0
+    );
+
+    await locals.pb.collection('orders').update(lastOrderItem.order_id, {
+      total_amount: newTotalAmount, // TODO: calculate total amount
+    });
 
     return {};
   },
@@ -127,6 +150,9 @@ export const actions: Actions = {
       body: {
         items: mappedItems,
         redirect_urls: {
+          success: `${url.origin}/carrito/pago/confirmacion`,
+        },
+        back_urls: {
           success: `${url.origin}/carrito/pago/confirmacion`,
         },
       },
