@@ -92,7 +92,6 @@ export const actions: Actions = {
   },
 
   createOrder: async ({ locals }) => {
-    console.log('createOrder');
     const order = await locals.pb.collection('orders').getFirstListItem<
       OrdersResponse<{
         order_items_via_order_id: OrderItemsResponse<{
@@ -104,8 +103,6 @@ export const actions: Actions = {
       // orders, products, product_prices
       expand: 'order_items_via_order_id, order_items_via_order_id.product_id',
     });
-
-    console.log(JSON.stringify(order, null, 2));
 
     if (!order.expand) {
       return fail(500, { message: 'No order found' });
