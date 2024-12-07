@@ -4,27 +4,32 @@
   import CheckoutPayment from '$lib/components/checkout-payment.svelte';
   import Separator from '$lib/components/ui/separator/separator.svelte';
   import Label from '$lib/components/ui/label/label.svelte';
+  import Button from '$lib/components/ui/button/button.svelte';
 
   let { data } = $props();
   let selectedValue = $state('');
+
+  let paymentOptions = $state([
+    { value: 'paypal', label: 'Paypal' },
+    { value: 'mercado-pago', label: 'Mercado Pago' },
+  ]);
 </script>
 
 <div class="space-y-2">
   <h2><span class="font-bold">Paso 1:</span> Elige el metodo de pago</h2>
-  <RadioGroup.Root
-    value="option-one"
-    onValueChange={(value) => {
-      selectedValue = value;
-    }}
-  >
-    <div class="flex items-center space-x-2">
-      <RadioGroup.Item value="paypal" id="paypal" />
-      <Label for="paypal">Paypal</Label>
-    </div>
-    <div class="flex items-center space-x-2">
-      <RadioGroup.Item value="mercado-pago" id="mercado-pago" />
-      <Label for="mercado-pago">Mercado Pago</Label>
-    </div>
+  <RadioGroup.Root>
+    {#each paymentOptions as paymentOption}
+      <Button
+        onclick={() => {
+          selectedValue = paymentOption.value;
+        }}
+        variant="outline"
+        class="flex items-center justify-start"
+      >
+        <RadioGroup.Item value={paymentOption.value} id={paymentOption.value} />
+        <Label for={paymentOption.value}>{paymentOption.label}</Label>
+      </Button>
+    {/each}
   </RadioGroup.Root>
 
   {#if selectedValue === 'paypal'}
