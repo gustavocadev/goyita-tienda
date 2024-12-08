@@ -11,7 +11,7 @@ import { Preference } from 'mercadopago';
 import { client } from '$lib/mercadopago.js';
 
 export const load = async ({ locals }) => {
-  const orders = await locals.pb.collection('orders').getList(1, 2, {
+  const orders = await locals.pb.collection('orders').getList(0, 1, {
     sort: '-created',
     filter: 'status = 1',
   });
@@ -20,8 +20,10 @@ export const load = async ({ locals }) => {
     redirect(303, '/carrito');
   }
 
+  const [lastOrder] = orders.items;
+
   return {
-    order: orders.items[0],
+    order: lastOrder,
   };
 };
 
