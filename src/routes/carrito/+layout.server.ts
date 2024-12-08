@@ -18,8 +18,15 @@ export const load = async ({ locals }) => {
     // orders, products, product_prices
     expand: 'order_items_via_order_id, order_items_via_order_id.product_id',
   });
+
   if (!locals.user) {
     redirect(303, '/login');
+  }
+
+  if (order.totalItems === 0) {
+    return {
+      order: null,
+    };
   }
 
   const [lastOrder] = order.items;
