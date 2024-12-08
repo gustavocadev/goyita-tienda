@@ -16,7 +16,7 @@
   );
 </script>
 
-{#if data.order}
+{#if ($page.url.pathname === '/carrito' && data.cartItems.length > 0) || ($page.url.pathname === '/carrito/pago' && data.order) || $page.url.pathname === '/carrito/pago/confirmacion'}
   <div class="min-h-screen bg-background p-8">
     <div class="mx-auto max-w-6xl space-y-10">
       <h1 class="text-4xl font-bold">Resumen de tu pedido</h1>
@@ -69,7 +69,7 @@
                 {#each cartItems.value as cartItem}
                   <CartItemCard cartProduct={cartItem} />
                 {/each}
-              {:else if $page.url.pathname === '/carrito/pago' && data.order.expand?.order_items_via_order_id}
+              {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
                 {#each data.order.expand?.order_items_via_order_id as orderItem}
                   <CartItemCard
                     cartProduct={{
