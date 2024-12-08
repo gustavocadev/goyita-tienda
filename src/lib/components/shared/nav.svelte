@@ -47,7 +47,7 @@
 
     <form
       class="flex-1 md:block hidden"
-      action="/"
+      action="/productos"
       onsubmit={() => {
         invalidate('filter:products');
       }}
