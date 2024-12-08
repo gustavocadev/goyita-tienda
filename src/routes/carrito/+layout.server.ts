@@ -14,6 +14,7 @@ export const load = async ({ locals }) => {
     }>
   >(0, 1, {
     sort: '-created',
+    filter: 'status = 1',
     // orders, products, product_prices
     expand: 'order_items_via_order_id, order_items_via_order_id.product_id',
   });
