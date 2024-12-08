@@ -1,6 +1,7 @@
 <script lang="ts">
   import ProductCard from '$lib/components/product-card.svelte';
   import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
+  import { pb } from '$lib/pocketbase.js';
 
   let { data } = $props();
 
@@ -20,7 +21,10 @@
           id: product.id,
           name: product.name,
           description: product.description,
-          img: product.img,
+          img:
+            product.img.length > 0
+              ? pb.files.getURL(product, product.img[0])
+              : 'https://placehold.co/500',
           price: product.expand?.product_prices_via_product_id
             ? product.expand?.product_prices_via_product_id[0].price
             : undefined,
