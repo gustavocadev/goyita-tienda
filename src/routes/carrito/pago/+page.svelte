@@ -36,7 +36,6 @@
         </Button>
       {/each}
     </RadioGroup.Root>
-
     {#if selectedValue === 'paypal'}
       <Separator />
       <CheckoutPayment />
