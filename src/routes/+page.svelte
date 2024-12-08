@@ -7,8 +7,7 @@
   const skeletonArr = Array.from({ length: 8 });
 </script>
 
-<h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Home</h2>
-<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Todos los productos</p>
+<h2 class="text-3xl font-bold text-primary mb-8">Productos destacados</h2>
 
 <div
   class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
@@ -18,7 +17,7 @@
       <Skeleton class="w-full h-[320px]" />
     {/each}
   {:then products}
-    {#each products as product}
+    {#each products.items as product}
       <div class="group relative">
         <figure
           class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"
