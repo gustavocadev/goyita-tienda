@@ -17,7 +17,7 @@
 
 <div class="space-y-2">
   <h2><span class="font-bold">Paso 1:</span> Elige el metodo de pago</h2>
-  <RadioGroup.Root>
+  <RadioGroup.Root value="">
     {#each paymentOptions as paymentOption}
       <Button
         onclick={() => {
