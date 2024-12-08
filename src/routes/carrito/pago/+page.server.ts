@@ -25,7 +25,6 @@ export const actions: Actions = {
     if (!form.valid) {
       return fail(500, { form });
     }
-
     const { data } = form;
 
     const orderItem = await locals.pb
@@ -36,9 +35,8 @@ export const actions: Actions = {
       quantity: orderItem.quantity + 1,
     });
 
-    const orderItems = await locals.pb.collection('order_items').getList(1, 1, {
+    const orderItems = await locals.pb.collection('order_items').getList(0, 1, {
       sort: '-created',
-      filter: 'status = 1',
     });
 
     if (orderItems.totalItems === 0) {
@@ -57,8 +55,6 @@ export const actions: Actions = {
       total_amount: newTotalAmount, // TODO: calculate total amount
     });
 
-    console.log('incrementOrderItem');
-
     return {};
   },
   decrementOrderItem: async ({ locals, request }) => {
@@ -74,14 +70,13 @@ export const actions: Actions = {
       .collection('order_items')
       .getOne<OrderItemsResponse>(data.orderItemId);
 
-    // await locals.pb.collection('order_items').update(data.orderItemId, {
-    //   quantity: orderItem.quantity - 1,
-    // });
+    await locals.pb.collection('order_items').update(data.orderItemId, {
+      quantity: orderItem.quantity - 1,
+    });
 
     // a reducer function to calculate the total amount
-    const orderItems = await locals.pb.collection('order_items').getList(1, 1, {
+    const orderItems = await locals.pb.collection('order_items').getList(0, 1, {
       sort: '-created',
-      filter: 'status = 1',
     });
 
     if (orderItems.totalItems === 0) {
