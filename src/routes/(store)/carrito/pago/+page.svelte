@@ -11,7 +11,7 @@
   let selectedValue = $state('');
 
   let paymentOptions = $state([
-    { value: 'paypal', label: 'Paypal' },
+    // { value: 'paypal', label: 'Paypal' },
     { value: 'mercado-pago', label: 'Mercado Pago' },
   ]);
 </script>
