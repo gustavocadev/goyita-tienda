@@ -6,6 +6,7 @@
   import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
   import { getCartContext } from '$lib/context/cart.svelte.js';
   import { pb } from '$lib/pocketbase.js';
+  import { MetaTags } from 'svelte-meta-tags';
 
   let { data } = $props();
 
@@ -53,6 +54,11 @@
   };
 </script>
 
+<MetaTags
+  title={data.product.name}
+  description={data.product.description}
+  keywords={[data.product.name, 'producto', 'comprar']}
+/>
 <div class="grid lg:grid-cols-2 gap-8">
   <div>
     <ProductCarousel images={data.productImages} />

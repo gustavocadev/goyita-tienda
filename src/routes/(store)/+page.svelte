@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Skeleton } from '$lib/components/ui/skeleton';
   import { pb } from '$lib/pocketbase';
+  import { MetaTags } from 'svelte-meta-tags';
 
   let { data } = $props();
 
@@ -9,6 +10,11 @@
 
 <h2 class="text-3xl font-bold text-primary mb-8">Productos destacados</h2>
 
+<MetaTags
+  title="Goyita Store"
+  description="Descubre los productos destacados"
+  keywords={['productos', 'tienda', 'comprar']}
+/>
 <div
   class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
 >

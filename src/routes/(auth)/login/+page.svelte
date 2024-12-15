@@ -13,6 +13,7 @@
   import { Heart, Lock, Mail } from 'lucide-svelte';
   import { toast } from 'svelte-sonner';
   import { superForm } from 'sveltekit-superforms/client';
+  import { MetaTags } from 'svelte-meta-tags';
 
   let { data } = $props();
 
@@ -33,6 +34,11 @@
   );
 </script>
 
+<MetaTags
+  title="Iniciar sesión"
+  description="Ingresa a tu cuenta"
+  keywords={['iniciar sesión', 'login', 'acceder']}
+/>
 <Card class="w-[380px] shadow-lg">
   <CardHeader class="space-y-1 flex flex-col items-center">
     <div
