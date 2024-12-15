@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button';
-  import { Menu, ShoppingCart } from 'lucide-svelte';
+  import { Menu, RabbitIcon, ShoppingCart } from 'lucide-svelte';
   import { Input } from '$lib/components/ui/input';
   import { getCartContext } from '$lib/context/cart.svelte';
   import LightSwitch from './light-switch.svelte';
@@ -12,19 +12,26 @@
   let { toggleCartSheet, cartItems } = getCartContext();
 </script>
 
-<header class="px-4 flex">
+<header class="px-36 flex">
   <div class="flex justify-between items-center py-4 gap-8 w-full">
     <div class="flex items-center gap-4 justify-start flex-1">
       <a
         href="/"
-        class="flex items-center text-sm uppercase"
+        class="flex items-center text-sm uppercase gap-2"
         onclick={() => {
           invalidate('filter:products');
         }}
       >
+        <RabbitIcon className="size-6" />
         <span class="text-lg font-semibold"> Goyita Store </span>
       </a>
-      <nav class="hidden md:flex">
+
+      <!-- <ul class="flex gap-4">
+        <Button variant="outline">
+          <a href="/productos"> Productos </a>
+        </Button>
+      </ul> -->
+      <!-- <nav class="hidden md:flex">
         <ul class="flex gap-4">
           <li>
             <a href="/categoria/hombres" class="text-sm hover:underline">
@@ -42,7 +49,7 @@
             </a>
           </li>
         </ul>
-      </nav>
+      </nav> -->
     </div>
 
     <form
@@ -52,12 +59,14 @@
         invalidate('filter:products');
       }}
     >
-      <Input placeholder="Buscar productos" name="p" />
+      <Input placeholder="Buscar productos" name="p" class="" />
     </form>
 
     <div class="flex items-center flex-1 justify-end gap-2">
+      <Button variant="secondary">
+        <a href="/productos"> Productos </a>
+      </Button>
       <LightSwitch />
-
       <Button
         type="button"
         class="relative"
