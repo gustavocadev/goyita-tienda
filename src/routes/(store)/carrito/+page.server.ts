@@ -3,7 +3,7 @@ import type {
   CartItemsResponse,
   ProductsResponse,
   ProductPricesResponse,
-} from '../../../pocketbase-types.js';
+} from '../../../../pocketbase-types.js';
 
 export const actions = {
   createOrder: async ({ locals }) => {

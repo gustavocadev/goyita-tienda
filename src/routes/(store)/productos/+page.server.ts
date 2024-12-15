@@ -1,7 +1,7 @@
 import type {
   ProductPricesResponse,
   ProductsResponse,
-} from '../../../pocketbase-types.js';
+} from '../../../../pocketbase-types.js';
 
 export const load = async ({ locals, request, depends }) => {
   depends('filter:products');

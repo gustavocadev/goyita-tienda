@@ -3,7 +3,7 @@ import type {
   OrderItemsResponse,
   OrdersResponse,
   ProductsResponse,
-} from '../../../pocketbase-types.js';
+} from '../../../../pocketbase-types.js';
 
 export const load = async ({ locals }) => {
   const order = await locals.pb.collection('orders').getList<

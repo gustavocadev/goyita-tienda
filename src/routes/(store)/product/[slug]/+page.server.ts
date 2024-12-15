@@ -2,7 +2,7 @@ import type { Actions } from '@sveltejs/kit';
 import type {
   ProductPricesRecord,
   ProductsResponse,
-} from '../../../../pocketbase-types';
+} from '../../../../../pocketbase-types';
 
 export const load = async ({ locals, params }) => {
   const { slug } = params;
