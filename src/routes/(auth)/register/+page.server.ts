@@ -45,7 +45,9 @@ export const actions = {
       });
     } catch (error) {
       console.log(error);
-      return message(form, 'El correo electrónico ya está registrado');
+      return message(form, 'El correo electrónico ya está registrado', {
+        status: 400,
+      });
     }
     redirect(302, '/');
   },
