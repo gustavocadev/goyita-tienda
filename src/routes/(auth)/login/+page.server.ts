@@ -77,7 +77,9 @@ export const actions = {
       }
     } catch (error) {
       console.log({ error });
-      return message(form, 'Invalid email or password');
+      return message(form, 'Invalid email or password', {
+        status: 401,
+      });
     }
     redirect(303, '/');
   },
