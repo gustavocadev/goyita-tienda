@@ -4,14 +4,6 @@ import { message, superValidate } from 'sveltekit-superforms/server';
 import type { TypedPocketBase } from '../../../../pocketbase-types.js';
 import * as v from 'valibot';
 
-export const load = async ({ locals }) => {
-  const isValidSession = locals.pb.authStore.isValid;
-  if (isValidSession) {
-    redirect(302, '/');
-  }
-  return {};
-};
-
 const schema = v.object({
   email: v.pipe(v.string(), v.email()),
   password: v.pipe(v.string(), v.minLength(8)),
@@ -26,6 +18,16 @@ const schema = v.object({
     })
   ),
 });
+
+export const load = async ({ locals }) => {
+  const isValidSession = locals.pb.authStore.isValid;
+  if (isValidSession) {
+    redirect(302, '/');
+  }
+
+  const form = await superValidate(valibot(schema));
+  return { form };
+};
 
 export const actions = {
   login: async ({ request, locals }) => {
