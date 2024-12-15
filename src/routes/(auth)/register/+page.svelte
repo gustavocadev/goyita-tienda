@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { applyAction, enhance } from '$app/forms';
   import { Button } from '$lib/components/ui/button';
   import {
     Card,
@@ -10,22 +9,26 @@
   } from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
-  import type { SubmitFunction } from '@sveltejs/kit';
   import { Heart, Lock, Mail, User } from 'lucide-svelte';
+  import { superForm } from 'sveltekit-superforms/client';
+  import { MetaTags } from 'svelte-meta-tags';
   import { toast } from 'svelte-sonner';
 
-  let isPending = $state(false);
-
-  const handleSubmit: SubmitFunction = () => {
-    isPending = true;
-    return async ({ result }) => {
-      isPending = false;
-      await applyAction(result);
-      toast.success('Cuenta creada correctamente');
-    };
-  };
+  let { data } = $props();
+  const { enhance, submitting, errors } = superForm(data.form, {
+    onUpdate: ({ result }) => {
+      if (result.type === 'success') {
+        toast.success('Cuenta creada exitosamente');
+      }
+    },
+  });
 </script>
 
+<MetaTags
+  title="Crear cuenta"
+  description="Regístrate para comenzar"
+  keywords={['crear cuenta', 'registro', 'registrarse']}
+/>
 <Card class="w-[380px] shadow-lg">
   <CardHeader class="space-y-1 flex flex-col items-center">
     <div
@@ -37,12 +40,7 @@
     <CardDescription>Regístrate para comenzar</CardDescription>
   </CardHeader>
   <CardContent>
-    <form
-      class="space-y-4"
-      method="post"
-      action="?/register"
-      use:enhance={handleSubmit}
-    >
+    <form class="space-y-4" method="post" action="?/register" use:enhance>
       <div class="space-y-2">
         <Label for="fullName">Nombre completo</Label>
         <div class="relative">
@@ -50,12 +48,14 @@
           <Input
             id="fullName"
             type="text"
-            placeholder="Nombre completo"
             name="fullName"
-            required
             class="pl-9"
+            placeholder="Nombre completo"
           />
         </div>
+        {#if $errors.fullName}
+          <p class="text-red-500 text-sm">{$errors.fullName}</p>
+        {/if}
       </div>
       <div class="space-y-2">
         <Label for="email">Correo electrónico</Label>
@@ -67,9 +67,11 @@
             type="email"
             name="email"
             class="pl-9"
-            required
           />
         </div>
+        {#if $errors.email}
+          <p class="text-red-500 text-sm">{$errors.email}</p>
+        {/if}
       </div>
       <div class="space-y-2">
         <Label for="password">Contraseña</Label>
@@ -79,11 +81,13 @@
             id="password"
             type="password"
             class="pl-9"
-            required
             placeholder="Contraseña"
             name="password"
           />
         </div>
+        {#if $errors.password}
+          <p class="text-red-500 text-sm">{$errors.password}</p>
+        {/if}
       </div>
       <div class="space-y-2">
         <Label for="passwordConfirm">Confirmar contraseña</Label>
@@ -93,14 +97,16 @@
             id="passwordConfirm"
             type="password"
             name="passwordConfirm"
-            required
             class="pl-9"
             placeholder="Confirmar contraseña"
           />
         </div>
+        {#if $errors.passwordConfirm}
+          <p class="text-red-500 text-sm">{$errors.passwordConfirm}</p>
+        {/if}
       </div>
 
-      <Button type="submit" class="w-full" disabled={isPending}
+      <Button type="submit" class="w-full" disabled={$submitting}
         >Registrarse</Button
       >
     </form>
