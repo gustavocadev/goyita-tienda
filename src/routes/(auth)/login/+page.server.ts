@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import type { TypedPocketBase } from '../../../pocketbase-types.js';
+import type { TypedPocketBase } from '../../../../pocketbase-types.js';
 import * as v from 'valibot';
 
 export const load = async ({ locals }) => {

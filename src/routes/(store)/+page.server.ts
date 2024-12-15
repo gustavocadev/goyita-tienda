@@ -1,5 +1,5 @@
-import type { ProductsResponse } from '../../pocketbase-types.js';
-import type { ProductPricesResponse } from '../../pocketbase-types';
+import type { ProductsResponse } from '../../../pocketbase-types.js';
+import type { ProductPricesResponse } from '../../../pocketbase-types';
 import { fail, redirect } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { valibot } from 'sveltekit-superforms/adapters';
