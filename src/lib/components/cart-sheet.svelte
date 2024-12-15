@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { WalletMinimal } from 'lucide-svelte';
+  import { ShoppingCart, WalletMinimal } from 'lucide-svelte';
   import { Button } from './ui/button';
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
@@ -57,6 +57,15 @@
                 <ProductCounter {cartProduct} />
               </div>
             </div>
+          </div>
+        {:else}
+          <div
+            class="flex flex-col items-center justify-center h-full text-center"
+          >
+            <ShoppingCart class="h-12 w-12 text-muted-foreground mb-4" />
+            <p class="text-lg font-semibold text-muted-foreground">
+              Tu carrito está vacío
+            </p>
           </div>
         {/each}
       </div>
