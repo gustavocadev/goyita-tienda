@@ -18,7 +18,7 @@
   }
 </script>
 
-<header class="border-b">
+<header class="border-b fixed bg-background w-full z-50">
   <div class="px-4 sm:px-6 lg:px-8 xl:px-36 mx-auto">
     <div class="flex items-center h-16">
       <!-- Logo -->
