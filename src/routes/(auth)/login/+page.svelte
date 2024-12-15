@@ -19,7 +19,7 @@
   const { cartItems } = getCartContext();
   const { enhance, submitting } = superForm(data.form, {
     onUpdate({ result }) {
-      if (result.type === 'success') {
+      if (result.type === 'failure') {
         toast.error('Credenciales inválidas');
       }
     },
