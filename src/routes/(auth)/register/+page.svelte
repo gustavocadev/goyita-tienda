@@ -20,6 +20,9 @@
       if (result.type === 'success') {
         toast.success('Cuenta creada exitosamente');
       }
+      if (result.type === 'failure') {
+        toast.error('El correo electrónico ya está registrado');
+      }
     },
   });
 </script>
@@ -101,9 +104,6 @@
             placeholder="Confirmar contraseña"
           />
         </div>
-        {#if $errors.passwordConfirm}
-          <p class="text-red-500 text-sm">{$errors.passwordConfirm}</p>
-        {/if}
       </div>
 
       <Button type="submit" class="w-full" disabled={$submitting}
