@@ -6,7 +6,7 @@ import type {
   OrderItemsResponse,
   OrdersResponse,
   ProductsResponse,
-} from '../../../../pocketbase-types.js';
+} from '../../../../../pocketbase-types.js';
 import { Preference } from 'mercadopago';
 import { client } from '$lib/mercadopago.js';
 
