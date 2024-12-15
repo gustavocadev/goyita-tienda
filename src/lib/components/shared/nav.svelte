@@ -10,97 +10,133 @@
 
   let { user } = $props();
   let { toggleCartSheet, cartItems } = getCartContext();
+
+  let isMenuOpen = $state(false);
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+  }
 </script>
 
-<header class="px-36 flex">
-  <div class="flex justify-between items-center py-4 gap-8 w-full">
-    <div class="flex items-center gap-4 justify-start flex-1">
-      <a
-        href="/"
-        class="flex items-center text-sm uppercase gap-2"
-        onclick={() => {
-          invalidate('filter:products');
-        }}
-      >
-        <RabbitIcon className="size-6" />
-        <span class="text-lg font-semibold"> Goyita Store </span>
-      </a>
+<header class="border-b">
+  <div class="px-4 sm:px-6 lg:px-8 xl:px-36 mx-auto">
+    <div class="flex items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a
+          href="/"
+          class="flex items-center gap-2"
+          onclick={() => {
+            invalidate('filter:products');
+          }}
+        >
+          <RabbitIcon class="size-6" />
+          <span class="text-lg font-semibold">Goyita Store</span>
+        </a>
+      </div>
 
-      <!-- <ul class="flex gap-4">
-        <Button variant="outline">
-          <a href="/productos"> Productos </a>
+      <!-- Search Bar - Desktop -->
+      <div class="hidden md:flex flex-1 px-8">
+        <form
+          class="w-full max-w-lg"
+          action="/productos"
+          onsubmit={() => {
+            invalidate('filter:products');
+          }}
+        >
+          <Input placeholder="Buscar productos" name="p" />
+        </form>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-2">
+        <Button variant="secondary">
+          <a href="/productos">Productos</a>
         </Button>
-      </ul> -->
-      <!-- <nav class="hidden md:flex">
-        <ul class="flex gap-4">
-          <li>
-            <a href="/categoria/hombres" class="text-sm hover:underline">
-              Hombres
-            </a>
-          </li>
-          <li>
-            <a href="/categoria/mujeres" class="text-sm hover:underline">
-              Mujeres
-            </a>
-          </li>
-          <li>
-            <a href="/categoria/kids" class="text-sm hover:underline">
-              Niños
-            </a>
-          </li>
-        </ul>
-      </nav> -->
-    </div>
-
-    <form
-      class="flex-1 md:block hidden"
-      action="/productos"
-      onsubmit={() => {
-        invalidate('filter:products');
-      }}
-    >
-      <Input placeholder="Buscar productos" name="p" class="" />
-    </form>
-
-    <div class="flex items-center flex-1 justify-end gap-2">
-      <Button variant="secondary">
-        <a href="/productos"> Productos </a>
-      </Button>
-      <LightSwitch />
-      <Button
-        type="button"
-        class="relative"
-        variant="ghost"
-        onclick={() => {
-          toggleCartSheet();
-        }}
-      >
-        <ShoppingCart class="size-6" />
-        {#if cartItems.value.length > 0}
-          <Badge
-            class="absolute -top-1 -right-1 text-[10px] size-4 p-0 flex items-center justify-center rounded-full"
-          >
-            {cartItems.value.length}
-          </Badge>
+        <LightSwitch />
+        <Button
+          type="button"
+          class="relative"
+          variant="ghost"
+          onclick={toggleCartSheet}
+        >
+          <ShoppingCart class="size-6" />
+          {#if cartItems.value.length > 0}
+            <Badge
+              class="absolute -top-1 -right-1 text-[10px] size-4 p-0 flex items-center justify-center rounded-full"
+            >
+              {cartItems.value.length}
+            </Badge>
+          {/if}
+        </Button>
+        {#if !user}
+          <Button variant="ghost">
+            <a href="/login">Iniciar sesión</a>
+          </Button>
+          <Button variant="secondary">
+            <a href="/register">Registrarse</a>
+          </Button>
+        {:else}
+          <UserLoggedIn name={user.name} email={user.email} />
         {/if}
-      </Button>
+      </div>
 
-      {#if !user}
-        <a href="/login" class="hidden md:block">
-          <Button variant="ghost">Iniciar sesion</Button>
-        </a>
-
-        <a href="/register" class="hidden md:block">
-          <Button>Registrase</Button>
-        </a>
-      {:else}
-        <UserLoggedIn name={user.name} email={user.email} />
-      {/if}
-
-      <Button variant="ghost" size="icon" class="md:hidden">
-        <Menu class="size-6" />
-        <span class="sr-only">Menu</span>
-      </Button>
+      <!-- Mobile Navigation -->
+      <div class="flex items-center gap-2 md:hidden ml-auto">
+        <LightSwitch />
+        <Button
+          type="button"
+          class="relative"
+          variant="ghost"
+          onclick={toggleCartSheet}
+        >
+          <ShoppingCart class="size-6" />
+          {#if cartItems.value.length > 0}
+            <Badge
+              class="absolute -top-1 -right-1 text-[10px] size-4 p-0 flex items-center justify-center rounded-full"
+            >
+              {cartItems.value.length}
+            </Badge>
+          {/if}
+        </Button>
+        <Button variant="ghost" size="icon" onclick={toggleMenu}>
+          <Menu class="size-6" />
+          <span class="sr-only">Menu</span>
+        </Button>
+      </div>
     </div>
+
+    <!-- Mobile Menu -->
+    {#if isMenuOpen}
+      <div class="md:hidden py-4">
+        <form
+          class="mb-4"
+          action="/productos"
+          onsubmit={() => {
+            invalidate('filter:products');
+          }}
+        >
+          <Input placeholder="Buscar productos" name="p" class="w-full" />
+        </form>
+
+        <nav class="flex flex-col gap-2">
+          <Button variant="secondary" class="w-full justify-start">
+            <a href="/productos" class="w-full text-left">Productos</a>
+          </Button>
+          {#if !user}
+            <Button variant="ghost" class="w-full justify-start">
+              <a href="/login" class="w-full text-left">Iniciar sesión</a>
+            </Button>
+            <Button variant="secondary" class="w-full justify-start">
+              <a href="/register" class="w-full text-left">Registrarse</a>
+            </Button>
+          {:else}
+            <div class="w-full">
+              <UserLoggedIn name={user.name} email={user.email} />
+            </div>
+          {/if}
+        </nav>
+      </div>
+    {/if}
   </div>
 </header>
