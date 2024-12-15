@@ -1,12 +1,18 @@
 import * as v from 'valibot';
-import { superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate } from 'sveltekit-superforms/server';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { fail, redirect } from '@sveltejs/kit';
 
 const schema = v.object({
-  fullName: v.pipe(v.string(), v.minLength(1)),
-  email: v.pipe(v.string(), v.email()),
-  password: v.pipe(v.string(), v.minLength(8)),
+  fullName: v.pipe(
+    v.string(),
+    v.minLength(1, 'El nombre completo es requerido')
+  ),
+  email: v.pipe(v.string(), v.email('Correo electrónico inválido')),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, 'La contraseña debe tener al menos 8 caracteres')
+  ),
   passwordConfirm: v.pipe(v.string(), v.minLength(8)),
 });
 
@@ -39,6 +45,7 @@ export const actions = {
       });
     } catch (error) {
       console.log(error);
+      return message(form, 'El correo electrónico ya está registrado');
     }
     redirect(302, '/');
   },
