@@ -74,7 +74,7 @@
             type="password"
             class="pl-9"
             required
-            placeholder="Contraseña"
+            placeholder="********"
             name="password"
           />
         </div>
