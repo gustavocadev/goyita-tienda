@@ -3,20 +3,23 @@ import { superValidate } from 'sveltekit-superforms/server';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load = async ({ locals }) => {
-  const isValidSession = locals.pb.authStore.isValid;
-  if (isValidSession) {
-    redirect(302, '/');
-  }
-  return {};
-};
-
 const schema = v.object({
   fullName: v.pipe(v.string(), v.minLength(1)),
   email: v.pipe(v.string(), v.email()),
   password: v.pipe(v.string(), v.minLength(8)),
   passwordConfirm: v.pipe(v.string(), v.minLength(8)),
 });
+
+export const load = async ({ locals }) => {
+  const isValidSession = locals.pb.authStore.isValid;
+  if (isValidSession) {
+    redirect(302, '/');
+  }
+
+  const form = await superValidate(valibot(schema));
+
+  return { form };
+};
 
 export const actions = {
   register: async ({ request, locals }) => {
