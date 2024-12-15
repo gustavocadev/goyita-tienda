@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { enhance, applyAction } from '$app/forms';
   import Button from '$lib/components/ui/button/button.svelte';
   import {
     Card,
@@ -11,20 +10,21 @@
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import type { SubmitFunction } from '@sveltejs/kit';
   import { Heart, Lock, Mail } from 'lucide-svelte';
+  import { toast } from 'svelte-sonner';
+  import { superForm } from 'sveltekit-superforms/client';
 
-  let isPending = $state(false);
+  let { data } = $props();
 
   const { cartItems } = getCartContext();
+  const { enhance, submitting } = superForm(data.form, {
+    onUpdate({ result }) {
+      if (result.type === 'success') {
+        toast.error('Credenciales inválidas');
+      }
+    },
+  });
 
-  const handleSubmit: SubmitFunction = () => {
-    isPending = true;
-    return async ({ result }) => {
-      isPending = false;
-      applyAction(result);
-    };
-  };
   const itemsIds = $derived(
     cartItems.value.map((item) => ({
       productId: item.productId,
@@ -44,12 +44,7 @@
     <CardDescription>Ingresa a tu cuenta</CardDescription>
   </CardHeader>
   <CardContent>
-    <form
-      class="space-y-4"
-      method="post"
-      action="?/login"
-      use:enhance={handleSubmit}
-    >
+    <form class="space-y-4" method="post" action="?/login" use:enhance>
       <input type="hidden" name="cartItems" value={JSON.stringify(itemsIds)} />
       <div class="space-y-2">
         <Label for="email">Correo electrónico</Label>
@@ -79,7 +74,7 @@
           />
         </div>
       </div>
-      <Button type="submit" class="w-full" disabled={isPending}
+      <Button type="submit" class="w-full" disabled={$submitting}
         >Iniciar sesión</Button
       >
     </form>
