@@ -17,13 +17,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   if (payment.status === 'approved') {
     console.log('approved');
+
+    const orderId = payment.metadata.orderId;
+    const userId = payment.metadata.userId;
+
     // update the order status
     // send an email
 
     // update the order status
-    // locals.pb.collection('orders').update(payment.external_reference, {
-    //   status: 2,
-    // })
+    await locals.pb.collection('orders').update(orderId, {
+      status: 2,
+    });
 
     // validate the payment status
     // if (status === 2){
@@ -31,7 +35,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     // }
 
     // create an invoice
-    // locals.pb.collection('invoices').create({})
+    await locals.pb.collection('invoices').create({
+      order_id: orderId,
+      user_id: userId,
+      total_amount: payment.transaction_amount,
+      status: 1,
+      invoice_number: payment.id,
+    });
   }
 
   return new Response(null, {
