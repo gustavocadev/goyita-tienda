@@ -139,6 +139,11 @@ export const actions: Actions = {
         back_urls: {
           success: `${url.origin}/carrito/pago/confirmacion`,
         },
+        metadata: {
+          orderId: order.id,
+          userId: order.user_id,
+        },
+        // notification_url:
       },
     });
 
