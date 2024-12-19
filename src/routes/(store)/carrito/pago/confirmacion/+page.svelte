@@ -12,7 +12,7 @@
   let { data } = $props();
 </script>
 
-<div class="flex items-center justify-center w-full">
+<div class="flex justify-center items-center">
   <Card class="w-full max-w-md">
     <CardHeader class="text-center">
       <CheckCircle class="w-16 h-16 mx-auto text-green-500 mb-4" />
