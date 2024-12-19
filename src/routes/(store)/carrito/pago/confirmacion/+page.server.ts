@@ -14,6 +14,7 @@ export const load = async ({ url, locals }) => {
     });
 
   if (invoices.length === 0) {
+    // todo: throw error in a real scenario
     // throw new Error('No invoices found');
   }
 
