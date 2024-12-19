@@ -27,6 +27,10 @@ export const actions = {
       throw new Error('No hay productos en el carrito');
     }
 
+    if (!locals.user) {
+      throw new Error('No hay un usuario logueado');
+    }
+
     const totalAmount = cartItems.reduce((acc, item) => {
       const productPrices =
         item.expand?.product_id.expand?.product_prices_via_product_id;
@@ -43,9 +47,6 @@ export const actions = {
       }
       return acc + productPrice.price * item.quantity;
     }, 0);
-
-    console.log(locals.user.id);
-    console.log({ totalAmount });
 
     const insertedOrder = await locals.pb.collection('orders').create({
       total_amount: totalAmount,
