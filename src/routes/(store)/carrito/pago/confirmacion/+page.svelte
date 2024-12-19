@@ -27,7 +27,7 @@
       <div class="p-4 rounded-lg bg-secondary">
         <h3 class="font-semibold mb-2">Detalles de la transacción:</h3>
         <p class="text-sm">Número de orden: #{data.invoice.invoice_number}</p>
-        <p class="text-sm">Monto: .S/ {data.invoice.total_amount}</p>
+        <p class="text-sm">Monto: S/. {data.invoice.total_amount}</p>
         <p class="text-sm">
           Fecha: {data.invoice.created}
         </p>
