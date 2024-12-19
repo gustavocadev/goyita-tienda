@@ -25,8 +25,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   if (payment.status === 'approved') {
     console.log('approved');
 
-    const orderId = payment.metadata.orderId;
-    const userId = payment.metadata.userId;
+    const orderId = payment.metadata.order_id;
+    const userId = payment.metadata.user_id;
     console.log({
       'payment.metadata': payment.metadata,
     });
