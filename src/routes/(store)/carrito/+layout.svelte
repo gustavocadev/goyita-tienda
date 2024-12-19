@@ -3,6 +3,8 @@
   import CartItemCard from '$lib/components/cart-item-card.svelte';
   import { Card, CardContent } from '$lib/components/ui/card';
   import { getCartContext } from '$lib/context/cart.svelte';
+  import { getProductById } from '$lib/helpers/get-product-by-id.js';
+  import { pb } from '$lib/pocketbase.js';
   import { ShoppingCartIcon, Trophy, Wallet } from 'lucide-svelte';
 
   let { children, data } = $props();
@@ -76,16 +78,29 @@
                   {/each}
                 {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
                   {#each data.order.expand?.order_items_via_order_id as orderItem}
-                    <CartItemCard
-                      cartProduct={{
-                        img: ['https://placehold.it/64x64'],
-                        name: orderItem.expand?.product_id.name ?? '',
-                        price: orderItem.unit_price * orderItem.quantity,
-                        productId: orderItem.product_id,
-                        quantity: orderItem.quantity,
-                      }}
-                      orderItemId={orderItem.id}
-                    />
+                    {#await getProductById(orderItem.product_id) then product}
+                      <CartItemCard
+                        cartProduct={{
+                          img: [pb.files.getURL(product, product.img[0])],
+                          name: orderItem.expand?.product_id.name ?? '',
+                          price: orderItem.unit_price * orderItem.quantity,
+                          productId: orderItem.product_id,
+                          quantity: orderItem.quantity,
+                        }}
+                        orderItemId={orderItem.id}
+                      />
+                    {:catch error}
+                      <CartItemCard
+                        cartProduct={{
+                          img: ['https://placehold.co/64x64'],
+                          name: orderItem.expand?.product_id.name ?? '',
+                          price: orderItem.unit_price * orderItem.quantity,
+                          productId: orderItem.product_id,
+                          quantity: orderItem.quantity,
+                        }}
+                        orderItemId={orderItem.id}
+                      />
+                    {/await}
                   {/each}
                 {/if}
               </div>
