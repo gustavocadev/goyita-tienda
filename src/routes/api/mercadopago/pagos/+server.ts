@@ -20,6 +20,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     const orderId = payment.metadata.orderId;
     const userId = payment.metadata.userId;
+    console.log({
+      'payment.metadata': payment.metadata,
+    });
 
     // send an email
 
