@@ -6,7 +6,7 @@
   import '../app.css';
   import { Toaster } from '$lib/components/ui/sonner';
   import Hero from '$lib/components/hero.svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { SvelteKitTopLoader } from 'sveltekit-top-loader';
 
   let { children, data } = $props();
@@ -27,7 +27,7 @@
 <Toaster />
 <ModeWatcher />
 <Navbar user={data.user} />
-{#if $page.url.pathname === '/'}
+{#if page.url.pathname === '/'}
   <Hero />
 {/if}
 
