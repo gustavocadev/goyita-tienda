@@ -7,6 +7,7 @@
   import { Toaster } from '$lib/components/ui/sonner';
   import Hero from '$lib/components/hero.svelte';
   import { page } from '$app/stores';
+  import { SvelteKitTopLoader } from 'sveltekit-top-loader';
 
   let { children, data } = $props();
 
@@ -22,6 +23,7 @@
   });
 </script>
 
+<SvelteKitTopLoader />
 <Toaster />
 <ModeWatcher />
 <Navbar user={data.user} />
