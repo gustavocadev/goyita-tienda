@@ -143,7 +143,7 @@ export const actions: Actions = {
           orderId: order.id,
           userId: order.user_id,
         },
-        // notification_url:
+        notification_url: `${url.origin}/api/mercadopago/pagos`,
       },
     });
 
