@@ -78,29 +78,16 @@
                   {/each}
                 {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
                   {#each data.order.expand?.order_items_via_order_id as orderItem}
-                    {#await getProductById(orderItem.product_id) then product}
-                      <CartItemCard
-                        cartProduct={{
-                          img: [pb.files.getURL(product, product.img[0])],
-                          name: orderItem.expand?.product_id.name ?? '',
-                          price: orderItem.unit_price * orderItem.quantity,
-                          productId: orderItem.product_id,
-                          quantity: orderItem.quantity,
-                        }}
-                        orderItemId={orderItem.id}
-                      />
-                    {:catch error}
-                      <CartItemCard
-                        cartProduct={{
-                          img: ['https://placehold.co/64x64'],
-                          name: orderItem.expand?.product_id.name ?? '',
-                          price: orderItem.unit_price * orderItem.quantity,
-                          productId: orderItem.product_id,
-                          quantity: orderItem.quantity,
-                        }}
-                        orderItemId={orderItem.id}
-                      />
-                    {/await}
+                    <CartItemCard
+                      cartProduct={{
+                        img: orderItem.expand?.product_id.img ?? [],
+                        name: orderItem.expand?.product_id.name ?? '',
+                        price: orderItem.unit_price * orderItem.quantity,
+                        productId: orderItem.product_id,
+                        quantity: orderItem.quantity,
+                      }}
+                      orderItemId={orderItem.id}
+                    />
                   {/each}
                 {/if}
               </div>
