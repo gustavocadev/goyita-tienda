@@ -143,6 +143,7 @@ export const actions: Actions = {
           orderId: order.id,
           userId: order.user_id,
         },
+        // webhooks
         notification_url: `${url.origin}/api/mercadopago/pagos`,
       },
     });
