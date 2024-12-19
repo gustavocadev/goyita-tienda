@@ -59,51 +59,57 @@
         </div>
       </div>
 
-      <div class="gap-6 lg:grid-cols-2 lg:grid-rows-3 grid">
-        <Card class="row-span-2">
-          <CardContent class="p-6">
-            <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
+      <div
+        class="gap-6 lg:grid-cols-2 lg:grid-rows-3 grid"
+        class:lg:grid-cols-1={$page.url.pathname ===
+          '/carrito/pago/confirmacion'}
+      >
+        {#if $page.url.pathname !== '/carrito/pago/confirmacion'}
+          <Card class="row-span-2">
+            <CardContent class="p-6">
+              <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
 
-            <div class="space-y-2">
-              {#if $page.url.pathname === '/carrito'}
-                {#each cartItems.value as cartItem}
-                  <CartItemCard cartProduct={cartItem} />
-                {/each}
-              {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
-                {#each data.order.expand?.order_items_via_order_id as orderItem}
-                  <CartItemCard
-                    cartProduct={{
-                      img: ['https://placehold.it/64x64'],
-                      name: orderItem.expand?.product_id.name ?? '',
-                      price: orderItem.unit_price * orderItem.quantity,
-                      productId: orderItem.product_id,
-                      quantity: orderItem.quantity,
-                    }}
-                    orderItemId={orderItem.id}
-                  />
-                {/each}
-              {/if}
-            </div>
-            <div class="mt-4 text-sm">
-              <button class="text-primary"
-                >¿Necesitas ayuda con tu compra?</button
-              >
-            </div>
-            <div class="mt-4 flex justify-between border-t pt-4">
-              <span class="font-medium">Total</span>
-              <span
-                class="text-green-600 dark:text-green-400 font-semibold text-lg"
-                >S/
+              <div class="space-y-2">
                 {#if $page.url.pathname === '/carrito'}
-                  {getTotalAmount()}
-                {:else if $page.url.pathname === '/carrito/pago'}
-                  {totalOrderAmount}
+                  {#each cartItems.value as cartItem}
+                    <CartItemCard cartProduct={cartItem} />
+                  {/each}
+                {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
+                  {#each data.order.expand?.order_items_via_order_id as orderItem}
+                    <CartItemCard
+                      cartProduct={{
+                        img: ['https://placehold.it/64x64'],
+                        name: orderItem.expand?.product_id.name ?? '',
+                        price: orderItem.unit_price * orderItem.quantity,
+                        productId: orderItem.product_id,
+                        quantity: orderItem.quantity,
+                      }}
+                      orderItemId={orderItem.id}
+                    />
+                  {/each}
                 {/if}
-                SOL</span
-              >
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+              <div class="mt-4 text-sm">
+                <button class="text-primary"
+                  >¿Necesitas ayuda con tu compra?</button
+                >
+              </div>
+              <div class="mt-4 flex justify-between border-t pt-4">
+                <span class="font-medium">Total</span>
+                <span
+                  class="text-green-600 dark:text-green-400 font-semibold text-lg"
+                  >S/
+                  {#if $page.url.pathname === '/carrito'}
+                    {getTotalAmount()}
+                  {:else if $page.url.pathname === '/carrito/pago'}
+                    {totalOrderAmount}
+                  {/if}
+                  SOL</span
+                >
+              </div>
+            </CardContent>
+          </Card>
+        {/if}
 
         {@render children()}
       </div>
