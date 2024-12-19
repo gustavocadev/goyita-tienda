@@ -46,7 +46,7 @@ export const actions = {
     } catch (error) {
       console.log(error);
       return message(form, 'El correo electrónico ya está registrado', {
-        status: 400,
+        status: 409,
       });
     }
     redirect(302, '/');
