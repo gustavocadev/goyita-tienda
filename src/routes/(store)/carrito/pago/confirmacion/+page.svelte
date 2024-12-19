@@ -8,9 +8,11 @@
     CardTitle,
   } from '$lib/components/ui/card';
   import { CheckCircle } from 'lucide-svelte';
+
+  let { data } = $props();
 </script>
 
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="flex items-center justify-center">
   <Card class="w-full max-w-md">
     <CardHeader class="text-center">
       <CheckCircle class="w-16 h-16 mx-auto text-green-500 mb-4" />
@@ -22,13 +24,11 @@
       <p class="text-gray-600 mb-4">
         Tu pago se ha realizado con éxito. Gracias por tu compra.
       </p>
-      <div class="bg-gray-50 p-4 rounded-lg">
-        <h3 class="font-semibold text-gray-700 mb-2">
-          Detalles de la transacción:
-        </h3>
-        <p class="text-sm text-gray-600">Número de orden: #12345</p>
-        <p class="text-sm text-gray-600">Monto: $99.99</p>
-        <p class="text-sm text-gray-600">
+      <div class="p-4 rounded-lg bg-secondary">
+        <h3 class="font-semibold mb-2">Detalles de la transacción:</h3>
+        <p class="text-sm">Número de orden: #?????</p>
+        <p class="text-sm">Monto: $ ?</p>
+        <p class="text-sm">
           Fecha: {new Date().toLocaleDateString()}
         </p>
       </div>
