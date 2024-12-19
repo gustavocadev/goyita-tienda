@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import CartItemCard from '$lib/components/cart-item-card.svelte';
   import { Card, CardContent } from '$lib/components/ui/card';
   import { getCartContext } from '$lib/context/cart.svelte';
-  import { getProductById } from '$lib/helpers/get-product-by-id.js';
-  import { pb } from '$lib/pocketbase.js';
   import { ShoppingCartIcon, Trophy, Wallet } from 'lucide-svelte';
 
   let { children, data } = $props();
@@ -18,7 +16,7 @@
   );
 </script>
 
-{#if ($page.url.pathname === '/carrito' && data.cartItems.length > 0) || ($page.url.pathname === '/carrito/pago' && data.order) || $page.url.pathname === '/carrito/pago/confirmacion'}
+{#if (page.url.pathname === '/carrito' && data.cartItems.length > 0) || (page.url.pathname === '/carrito/pago' && data.order) || page.url.pathname === '/carrito/pago/confirmacion'}
   <div class="min-h-screen bg-background p-8">
     <div class="mx-auto max-w-6xl space-y-10">
       <h1 class="text-4xl font-bold">Resumen de tu pedido</h1>
@@ -27,8 +25,8 @@
         <div class="flex flex-col items-center gap-2">
           <div
             class="flex h-8 w-8 items-center justify-center rounded-full"
-            class:bg-primary={$page.url.pathname === '/carrito'}
-            class:text-primary-foreground={$page.url.pathname === '/carrito'}
+            class:bg-primary={page.url.pathname === '/carrito'}
+            class:text-primary-foreground={page.url.pathname === '/carrito'}
           >
             <ShoppingCartIcon class="h-4 w-4" />
           </div>
@@ -38,8 +36,8 @@
         <div class="flex flex-col items-center gap-2">
           <div
             class="flex h-8 w-8 items-center justify-center rounded-full border border-border"
-            class:bg-primary={$page.url.pathname === '/carrito/pago'}
-            class:text-primary-foreground={$page.url.pathname ===
+            class:bg-primary={page.url.pathname === '/carrito/pago'}
+            class:text-primary-foreground={page.url.pathname ===
               '/carrito/pago'}
           >
             <Wallet class="h-4 w-4" />
@@ -50,9 +48,9 @@
         <div class="flex flex-col items-center gap-2">
           <div
             class="flex h-8 w-8 items-center justify-center rounded-full border border-border"
-            class:bg-primary={$page.url.pathname ===
+            class:bg-primary={page.url.pathname ===
               '/carrito/pago/confirmacion'}
-            class:text-primary-foreground={$page.url.pathname ===
+            class:text-primary-foreground={page.url.pathname ===
               '/carrito/pago/confirmacion'}
           >
             <Trophy class="h-4 w-4" />
@@ -62,21 +60,23 @@
       </div>
 
       <div
-        class="gap-6 lg:grid-cols-2 lg:grid-rows-3 grid"
-        class:lg:grid-cols-1={$page.url.pathname ===
-          '/carrito/pago/confirmacion'}
+        class={`gap-6 lg:grid-rows-3 grid ${
+          page.url.pathname === '/carrito/pago/confirmacion'
+            ? 'lg:grid-cols-1'
+            : 'lg:grid-cols-2'
+        }`}
       >
-        {#if $page.url.pathname !== '/carrito/pago/confirmacion'}
+        {#if page.url.pathname !== '/carrito/pago/confirmacion'}
           <Card class="row-span-2">
             <CardContent class="p-6">
               <h2 class="text-xl font-semibold mb-4">Resumen de tu pedido</h2>
 
               <div class="space-y-2">
-                {#if $page.url.pathname === '/carrito'}
+                {#if page.url.pathname === '/carrito'}
                   {#each cartItems.value as cartItem}
                     <CartItemCard cartProduct={cartItem} />
                   {/each}
-                {:else if $page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
+                {:else if page.url.pathname === '/carrito/pago' && data.order && data.order.expand?.order_items_via_order_id}
                   {#each data.order.expand?.order_items_via_order_id as orderItem}
                     <CartItemCard
                       cartProduct={{
@@ -101,9 +101,9 @@
                 <span
                   class="text-green-600 dark:text-green-400 font-semibold text-lg"
                   >S/
-                  {#if $page.url.pathname === '/carrito'}
+                  {#if page.url.pathname === '/carrito'}
                     {getTotalAmount()}
-                  {:else if $page.url.pathname === '/carrito/pago'}
+                  {:else if page.url.pathname === '/carrito/pago'}
                     {totalOrderAmount}
                   {/if}
                   SOL</span
