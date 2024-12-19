@@ -12,6 +12,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const body: MpBody = await request.json();
   console.log({ body });
 
+  const paymentId = body.data?.id;
+  if (!paymentId) {
+    return new Response(null, {
+      status: 200,
+    });
+  }
+
   // manage the payment in our system
   const payment = await new Payment(client).get({ id: body.data.id });
 
