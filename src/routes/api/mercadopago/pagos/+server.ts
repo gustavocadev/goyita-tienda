@@ -21,27 +21,28 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const orderId = payment.metadata.orderId;
     const userId = payment.metadata.userId;
 
-    // update the order status
     // send an email
 
-    // update the order status
-    await locals.pb.collection('orders').update(orderId, {
-      status: 2,
-    });
+    if (orderId && userId) {
+      // update the order status
+      await locals.pb.collection('orders').update(orderId, {
+        status: 2,
+      });
 
-    // validate the payment status
-    // if (status === 2){
-    //   throw new Error('El pago ya fue aprobado');
-    // }
+      // validate the payment status
+      // if (status === 2){
+      //   throw new Error('El pago ya fue aprobado');
+      // }
 
-    // create an invoice
-    await locals.pb.collection('invoices').create({
-      order_id: orderId,
-      user_id: userId,
-      total_amount: payment.transaction_amount,
-      status: 1,
-      invoice_number: payment.id,
-    });
+      // create an invoice
+      await locals.pb.collection('invoices').create({
+        order_id: orderId,
+        user_id: userId,
+        total_amount: payment.transaction_amount,
+        status: 1,
+        invoice_number: payment.id,
+      });
+    }
   }
 
   return new Response(null, {
