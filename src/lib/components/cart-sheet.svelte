@@ -4,7 +4,7 @@
   import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
   import { getCartContext } from '$lib/context/cart.svelte';
   import { goto } from '$app/navigation';
-  import ProductCounter from './product-counter.svelte';
+  import CartProductListItem from './cart-product-list-item.svelte';
 
   let isLoading = $state(false);
 
@@ -32,32 +32,7 @@
     <div class="flex flex-col h-full">
       <div class="flex-1 overflow-auto p-4">
         {#each cartItems.value as cartProduct}
-          <div
-            class="flex gap-3 pb-4 border-b mt-4"
-            class:hidden={cartProduct.quantity === 0}
-          >
-            <figure class="relative h-16 w-16 overflow-hidden rounded">
-              <img
-                src={cartProduct.img.length > 0
-                  ? cartProduct.img[0]
-                  : 'https://placehold.co/500'}
-                alt="Imagen del producto"
-                width={64}
-                height={64}
-                class="object-cover"
-              />
-            </figure>
-            <div class="flex flex-1 flex-col justify-between">
-              <div>
-                <h3 class="font-medium">{cartProduct.name}</h3>
-                <!-- <p class="text-sm">Negro / XS</p> -->
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="font-medium">S/. {cartProduct.price}</span>
-                <ProductCounter {cartProduct} />
-              </div>
-            </div>
-          </div>
+          <CartProductListItem {cartProduct} />
         {:else}
           <div
             class="flex flex-col items-center justify-center h-full text-center"
