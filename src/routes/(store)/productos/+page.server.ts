@@ -12,7 +12,7 @@ export const load = async ({ locals, request, depends }) => {
     ProductsResponse<{
       product_prices_via_product_id?: ProductPricesResponse[];
     }>
-  >(1, 9, {
+  >(1, 20, {
     expand: 'product_prices_via_product_id',
     filter: productName ? `name ~ "${productName}"` : '',
   });
