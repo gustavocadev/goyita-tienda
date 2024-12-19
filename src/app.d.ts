@@ -1,12 +1,11 @@
-import { TypedPocketBase } from '../pocketbase-types';
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
 declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      pb: TypedPocketBase;
-      user: TypedPocketBase.default['authStore']['model'];
+      pb: import('pocketbase').default;
+      user: import('pocketbase').default['authStore']['record'];
     }
     // interface PageData {}
     // interface PageState {}
