@@ -12,7 +12,7 @@
   let { data } = $props();
 </script>
 
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center w-full">
   <Card class="w-full max-w-md">
     <CardHeader class="text-center">
       <CheckCircle class="w-16 h-16 mx-auto text-green-500 mb-4" />
@@ -26,10 +26,10 @@
       </p>
       <div class="p-4 rounded-lg bg-secondary">
         <h3 class="font-semibold mb-2">Detalles de la transacción:</h3>
-        <p class="text-sm">Número de orden: #?????</p>
-        <p class="text-sm">Monto: $ ?</p>
+        <p class="text-sm">Número de orden: #{data.invoice.invoice_number}</p>
+        <p class="text-sm">Monto: .S/ {data.invoice.total_amount}</p>
         <p class="text-sm">
-          Fecha: {new Date().toLocaleDateString()}
+          Fecha: {data.invoice.created}
         </p>
       </div>
     </CardContent>
